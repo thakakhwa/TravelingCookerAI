@@ -184,27 +184,157 @@ button {
   text-decoration: none;
 }
 
+/* Navbar Logo Spectacular Animations */
 .logo-text {
   font-size: clamp(1.4rem, 3vw, 1.8rem);
   font-weight: 300;
-  animation: fadeInUp 0.6s ease-out;
   color: var(--primary-color);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   letter-spacing: 0.5px;
   font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, 
+    var(--text-color) 0%, 
+    var(--text-color) 40%, 
+    var(--primary-color) 45%, 
+    var(--accent-color) 55%, 
+    var(--text-color) 60%, 
+    var(--text-color) 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logoShimmer 12s ease-in-out infinite;
+}
+
+.logo-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%);
+  transition: left 0.6s ease;
+  z-index: 1;
 }
 
 .ai-part {
   color: var(--primary-color);
-  transition: color 0.3s ease;
-  font-weight: 400;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-weight: 600;
   font-style: italic;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(0, 87, 255, 0.3));
+}
+
+.ai-part::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -6px;
+  width: 4px;
+  height: 4px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--accent-color);
+  animation: aiDotPulse 8s ease-in-out infinite;
+}
+
+/* Logo Animations */
+@keyframes logoShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes aiDotPulse {
+  0%, 90%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+    box-shadow: 0 0 6px var(--accent-color);
+  }
+  5% {
+    opacity: 1;
+    transform: scale(1.3);
+    box-shadow: 0 0 12px var(--accent-color), 0 0 20px rgba(0, 87, 255, 0.5);
+  }
+}
+
+/* Spectacular Logo Hover Effects */
+.navbar-logo a:hover .logo-text {
+  transform: translateY(-2px) scale(1.05);
+  filter: drop-shadow(0 8px 20px rgba(0, 87, 255, 0.4));
+  animation: logoHoverShimmer 0.8s ease-out;
+}
+
+.navbar-logo a:hover .logo-text::before {
+  left: 100%;
 }
 
 .navbar-logo a:hover .ai-part {
-  color: white;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(0, 87, 255, 0.8));
+  animation: aiPartBounce 0.6s ease-out;
 }
 
+.navbar-logo a:hover .ai-part::after {
+  transform: scale(1.8);
+  box-shadow: 0 0 15px var(--accent-color), 0 0 25px rgba(0, 87, 255, 0.8);
+  animation: aiDotExplosion 0.6s ease-out;
+}
+
+/* Individual logo animations */
+@keyframes logoHoverShimmer {
+  0% {
+    background-position: 0% 50%;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    background-position: 200% 50%;
+    transform: translateY(-3px) scale(1.08);
+  }
+  100% {
+    background-position: 300% 50%;
+    transform: translateY(-2px) scale(1.05);
+  }
+}
+
+@keyframes aiPartBounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.15) rotate(-2deg); }
+  60% { transform: scale(1.08) rotate(1deg); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes aiDotExplosion {
+  0% { 
+    transform: scale(1);
+    box-shadow: 0 0 6px var(--accent-color);
+  }
+  50% { 
+    transform: scale(2.2);
+    box-shadow: 0 0 20px var(--accent-color), 0 0 35px rgba(0, 87, 255, 1);
+  }
+  100% { 
+    transform: scale(1.8);
+    box-shadow: 0 0 15px var(--accent-color), 0 0 25px rgba(0, 87, 255, 0.8);
+  }
+}
+
+/* Enhanced AI Badge Animation */
 .ai-badge {
   background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   color: white;
@@ -215,6 +345,38 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-left: 0.5rem;
+  transition: all 0.3s ease;
+  animation: badgeGlow 10s ease-in-out infinite;
+}
+
+.navbar-logo a:hover .ai-badge {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 4px 15px rgba(0, 87, 255, 0.6);
+  animation: badgeHoverPulse 0.6s ease-out;
+}
+
+@keyframes badgeGlow {
+  0%, 85%, 100% {
+    box-shadow: 0 0 5px rgba(0, 87, 255, 0.3);
+  }
+  7% {
+    box-shadow: 0 0 10px rgba(0, 87, 255, 0.5);
+  }
+}
+
+@keyframes badgeHoverPulse {
+  0% { 
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 5px rgba(0, 87, 255, 0.3);
+  }
+  50% { 
+    transform: scale(1.15) rotate(-3deg);
+    box-shadow: 0 6px 20px rgba(0, 87, 255, 0.8);
+  }
+  100% { 
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 0 4px 15px rgba(0, 87, 255, 0.6);
+  }
 }
 
 .navbar-links {
@@ -571,13 +733,29 @@ button {
   gap: 1.5rem;
 }
 
+/* All hero title styles removed - using navbar logo animations instead */
+
 .tagline {
-  font-size: clamp(1rem, 2.5vw, 1.3rem);
-  margin-bottom: 1.5rem;
-  color: var(--text-baby-blue);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+  letter-spacing: 0.02em;
   text-align: center;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1rem;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(176, 217, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.9) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  font-family: 'Inter', sans-serif;
 }
 
 .hero-description {

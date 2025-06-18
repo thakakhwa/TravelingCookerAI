@@ -59,7 +59,6 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-content">
-            <h1>Travel AI Assistant</h1>
             <p className="tagline">
               {isAuthenticated 
                 ? `Welcome back, ${user?.username}! How can I help you plan your trip today?`

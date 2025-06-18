@@ -31,16 +31,16 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
     setShowUserMenu(false);
   };
 
-  // Determine logo classes based on sidebar state
+  // Determine logo classes based on sidebar state and current page
   const getLogoClasses = () => {
-    if (!isAuthenticated) return 'navbar-logo';
+    if (!isAuthenticated || location.pathname !== '/') return 'navbar-logo';
     return `navbar-logo ${sidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar'}`;
   };
 
   return (
     <>
-      {/* Sidebar Controls - Fixed at top-left corner */}
-      {isAuthenticated && (
+      {/* Sidebar Controls - Fixed at top-left corner - Only show on home page */}
+      {isAuthenticated && location.pathname === '/' && (
         <div className="sidebar-controls-fixed">
           <button 
             className="sidebar-toggle-btn"
