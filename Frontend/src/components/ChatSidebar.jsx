@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { chatApi } from '../services/chatApi';
 import './ChatSidebar.css';
 
-const ChatSidebar = ({ isCollapsed, onToggle }) => {
+const ChatSidebar = ({ isCollapsed, onToggle, onNewChat }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,10 +27,9 @@ const ChatSidebar = ({ isCollapsed, onToggle }) => {
 
   const handleNewChat = async () => {
     try {
-      const newSession = await chatApi.createSession({
-        title: 'New Chat'
-      });
-      setSessions(prev => [newSession, ...prev]);
+      const newSession = await onNewChat();
+      // Refresh the sessions list
+      fetchSessions();
     } catch (err) {
       console.error('Error creating new chat:', err);
     }
@@ -85,9 +84,6 @@ const ChatSidebar = ({ isCollapsed, onToggle }) => {
     <div className={`chat-sidebar ${isCollapsed ? 'collapsed' : 'expanded'}`}>
       <div className="sidebar-header">
         <h3 className="sidebar-title">Chat History</h3>
-        <button className="sidebar-toggle" onClick={onToggle}>
-          {isCollapsed ? '→' : '←'}
-        </button>
       </div>
 
       <button className="new-chat-btn" onClick={handleNewChat}>

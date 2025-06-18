@@ -6,6 +6,13 @@ import './AuthModal.css';
 const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
   const [mode, setMode] = useState(defaultMode); // 'login' or 'signup'
   const { login, register, error, loading, clearError } = useAuth();
+
+  // Update mode when defaultMode prop changes
+  React.useEffect(() => {
+    if (isOpen) {
+      setMode(defaultMode);
+    }
+  }, [defaultMode, isOpen]);
   
   const {
     register: registerField,
@@ -21,6 +28,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
   const handleClose = () => {
     reset();
     clearError();
+    setMode(defaultMode); // Reset to default mode when closing
     onClose();
   };
 

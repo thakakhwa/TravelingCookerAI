@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import ChatSidebar from '../components/ChatSidebar';
 
-const Home = () => {
+const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
   const { user, isAuthenticated } = useAuth();
   const [destination, setDestination] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  
-  // Chat sidebar state
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -20,10 +17,6 @@ const Home = () => {
       alert(`Searching for trips to ${destination}...`);
       setIsSearching(false);
     }
-  };
-
-  const handleToggleSidebar = () => {
-    setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
   // Animation for placeholder text
@@ -55,13 +48,14 @@ const Home = () => {
       {/* Chat Sidebar for logged in users */}
       {isAuthenticated && (
         <ChatSidebar
-          isCollapsed={isSidebarCollapsed}
-          onToggle={handleToggleSidebar}
+          isCollapsed={sidebarCollapsed}
+          onToggle={onToggleSidebar}
+          onNewChat={onNewChat}
         />
       )}
       
       {/* Main content with adjusted margin when sidebar is visible */}
-      <div className={`main-content ${isAuthenticated ? (isSidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar') : ''}`}>
+      <div className={`main-content ${isAuthenticated ? (sidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar') : ''}`}>
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-content">
