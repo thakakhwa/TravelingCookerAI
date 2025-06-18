@@ -45,12 +45,8 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-content">
-          <h1>Complete Trip Planning, Start to Finish</h1>
-          <p className="tagline">The easiest way to plan your perfect trip</p>
-          <p className="hero-description">
-            We handle every detail of your journey - flights, hotels, activities, and restaurants. From the moment you tell us your destination to the day you return home, we've got everything covered.
-          </p>
-          
+          <h1>Travel AI Assistant</h1>
+          <p className="tagline">How can I help you plan your trip today?</p>
           <form className="search-form" onSubmit={handleSearch}>
             <div className={`search-container ${isSearchFocused ? 'focused' : ''} ${isSearching ? 'searching' : ''}`}>
               <input
