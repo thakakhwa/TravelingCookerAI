@@ -1162,74 +1162,78 @@ button {
 
 /* Footer Styles */
 .footer {
-  position: relative;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border-color);
-  padding: 4rem 0 0;
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%);
+  color: var(--text-color);
+  padding: 2rem 0 1rem;
   margin-top: auto;
-  z-index: 2;
+  border-top: 1px solid rgba(0, 87, 255, 0.1);
 }
 
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-}
-
-.footer-brand {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-.footer-brand h3 {
-  color: var(--primary-color);
+.footer-brand .footer-logo {
   font-size: 1.5rem;
   font-weight: 700;
-}
-
-.footer-brand p {
   color: var(--text-color);
-  opacity: 0.8;
-  max-width: 300px;
+  margin: 0;
 }
 
-.contact-popup-button {
-  display: inline-block;
-  padding: 0.8rem 1.5rem;
-  background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
-  color: white;
-  border: none;
-  border-radius: 25px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.contact-popup-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 112, 243, 0.3);
+.footer-brand .ai-text {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .footer-links {
   display: flex;
-  justify-content: flex-end;
-  gap: 4rem;
+  gap: 2rem;
 }
 
-.footer-section ul {
-  list-style: none;
-  padding: 0;
+.footer-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(0, 87, 255, 0.1);
+  padding: 1rem 0;
+  text-align: center;
+  margin-top: 1rem;
+  background: #000000;
+}
+
+.footer-bottom p {
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-links {
+    gap: 1.5rem;
+  }
 }
 
 /* Responsive adjustments for logo positioning */
