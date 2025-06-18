@@ -65,9 +65,9 @@ function Navbar() {
                     <p className="user-since">Member since {new Date(user?.createdAt).getFullYear()}</p>
                   </div>
                   <hr />
-                  <button className="dropdown-item">
+                  <Link to="/" className="dropdown-item">
                     <span>📝</span> My Chat History
-                  </button>
+                  </Link>
                   <button className="dropdown-item">
                     <span>⚙️</span> Settings
                   </button>

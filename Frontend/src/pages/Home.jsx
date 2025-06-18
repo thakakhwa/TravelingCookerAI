@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import ChatSidebar from '../components/ChatSidebar';
 
 const Home = () => {
+  const { user, isAuthenticated } = useAuth();
   const [destination, setDestination] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  
+  // Chat sidebar state
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -14,6 +20,10 @@ const Home = () => {
       alert(`Searching for trips to ${destination}...`);
       setIsSearching(false);
     }
+  };
+
+  const handleToggleSidebar = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
   // Animation for placeholder text
@@ -42,87 +52,103 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Hero Section */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <h1>Travel AI Assistant</h1>
-          <p className="tagline">How can I help you plan your trip today?</p>
-          <form className="search-form" onSubmit={handleSearch}>
-            <div className={`search-container ${isSearchFocused ? 'focused' : ''} ${isSearching ? 'searching' : ''}`}>
-              <input
-                type="text"
-                className="search-input"
-                placeholder={placeholderTexts[placeholderIndex]}
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setIsSearchFocused(false)}
-                disabled={isSearching}
-                aria-label="Search destination"
-              />
-              <button 
-                type="submit" 
-                className="search-button"
-                disabled={!destination.trim() || isSearching}
-                aria-label={isSearching ? 'Searching...' : 'Search'}
-              />
+      {/* Chat Sidebar for logged in users */}
+      {isAuthenticated && (
+        <ChatSidebar
+          isCollapsed={isSidebarCollapsed}
+          onToggle={handleToggleSidebar}
+        />
+      )}
+      
+      {/* Main content with adjusted margin when sidebar is visible */}
+      <div className={`main-content ${isAuthenticated ? (isSidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar') : ''}`}>
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1>Travel AI Assistant</h1>
+            <p className="tagline">
+              {isAuthenticated 
+                ? `Welcome back, ${user?.username}! How can I help you plan your trip today?`
+                : "How can I help you plan your trip today?"
+              }
+            </p>
+            <form className="search-form" onSubmit={handleSearch}>
+              <div className={`search-container ${isSearchFocused ? 'focused' : ''} ${isSearching ? 'searching' : ''}`}>
+                <input
+                  type="text"
+                  className="search-input"
+                  placeholder={placeholderTexts[placeholderIndex]}
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  disabled={isSearching}
+                  aria-label="Search destination"
+                />
+                <button 
+                  type="submit" 
+                  className="search-button"
+                  disabled={!destination.trim() || isSearching}
+                  aria-label={isSearching ? 'Searching...' : 'Search'}
+                />
+              </div>
+            </form>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section className="services-section">
+          <h2>Everything You Need</h2>
+          <div className="services-grid">
+            <div className="service-card">
+              <div className="service-icon">✈️</div>
+              <h3>Flights</h3>
+              <p>Best deals and perfect timing for your journey</p>
             </div>
-          </form>
-        </div>
-      </section>
+            <div className="service-card">
+              <div className="service-icon">🏨</div>
+              <h3>Hotels</h3>
+              <p>Handpicked accommodations for every budget</p>
+            </div>
+            <div className="service-card">
+              <div className="service-icon">🎯</div>
+              <h3>Activities</h3>
+              <p>Curated experiences and must-see attractions</p>
+            </div>
+            <div className="service-card">
+              <div className="service-icon">🍽️</div>
+              <h3>Restaurants</h3>
+              <p>Local favorites and hidden gems</p>
+            </div>
+          </div>
+        </section>
 
-      {/* Services Section */}
-      <section className="services-section">
-        <h2>Everything You Need</h2>
-        <div className="services-grid">
-          <div className="service-card">
-            <div className="service-icon">✈️</div>
-            <h3>Flights</h3>
-            <p>Best deals and perfect timing for your journey</p>
+        {/* How It Works */}
+        <section className="how-it-works">
+          <h2>How It Works</h2>
+          <div className="steps">
+            <div className="step">
+              <div className="step-number">1</div>
+              <h3>Tell us your destination</h3>
+              <p>Share where you want to go and your preferences</p>
+            </div>
+            <div className="step">
+              <div className="step-number">2</div>
+              <h3>We plan everything</h3>
+              <p>Our experts handle all the details and bookings</p>
+            </div>
+            <div className="step">
+              <div className="step-number">3</div>
+              <h3>Enjoy your trip</h3>
+              <p>Relax and experience your perfectly planned journey</p>
+            </div>
           </div>
-          <div className="service-card">
-            <div className="service-icon">🏨</div>
-            <h3>Hotels</h3>
-            <p>Handpicked accommodations for every budget</p>
+          
+          <div className="cta-container">
+            <a href="/" className="cta-button">Start Planning Your Trip</a>
           </div>
-          <div className="service-card">
-            <div className="service-icon">🎯</div>
-            <h3>Activities</h3>
-            <p>Curated experiences and must-see attractions</p>
-          </div>
-          <div className="service-card">
-            <div className="service-icon">🍽️</div>
-            <h3>Restaurants</h3>
-            <p>Local favorites and hidden gems</p>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="how-it-works">
-        <h2>How It Works</h2>
-        <div className="steps">
-          <div className="step">
-            <div className="step-number">1</div>
-            <h3>Tell us your destination</h3>
-            <p>Share where you want to go and your preferences</p>
-          </div>
-          <div className="step">
-            <div className="step-number">2</div>
-            <h3>We plan everything</h3>
-            <p>Our experts handle all the details and bookings</p>
-          </div>
-          <div className="step">
-            <div className="step-number">3</div>
-            <h3>Enjoy your trip</h3>
-            <p>Relax and experience your perfectly planned journey</p>
-          </div>
-        </div>
-        
-        <div className="cta-container">
-          <a href="/" className="cta-button">Start Planning Your Trip</a>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 };
