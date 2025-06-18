@@ -1,0 +1,416 @@
+.background-animations-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  background: transparent;
+}
+
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(137, 207, 240, 0.8), rgba(74, 158, 255, 0.6));
+  filter: blur(1px);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  opacity: 0.25;
+}
+
+.floating-gradient {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(137, 207, 240, 0.6), rgba(90, 155, 212, 0.4));
+  filter: blur(2px);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Geometric Shapes */
+.floating-shape {
+  position: absolute;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  opacity: 0.8;
+}
+
+.triangle1, .triangle2 {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 25px solid rgba(137, 207, 240, 0.8);
+  filter: blur(0.5px);
+}
+
+.diamond1, .diamond2 {
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, rgba(137, 207, 240, 0.8), rgba(74, 158, 255, 0.6));
+  transform: rotate(45deg);
+  border-radius: 2px;
+  filter: blur(0.5px);
+}
+
+/* Particles */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(137, 207, 240, 0.85);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+
+
+/* Orb positions and animations */
+.orb1 {
+  width: 120px;
+  height: 120px;
+  animation: floatUp 15s infinite;
+  animation-delay: 0s;
+}
+
+.orb2 {
+  width: 80px;
+  height: 80px;
+  animation: floatUp 15s infinite;
+  animation-delay: 0s;
+}
+
+.orb3 {
+  width: 100px;
+  height: 100px;
+  animation: floatUp 15s infinite;
+  animation-delay: 0s;
+}
+
+.orb4 {
+  width: 60px;
+  height: 60px;
+  animation: floatUp 15s infinite;
+  animation-delay: 0s;
+}
+
+.orb5 {
+  width: 90px;
+  height: 90px;
+  animation: floatUp 15s infinite;
+  animation-delay: 0s;
+}
+
+.gradient1 {
+  width: 200px;
+  height: 200px;
+  animation: gradientFloat1 20s infinite;
+}
+
+.gradient2 {
+  width: 150px;
+  height: 150px;
+  animation: gradientFloat2 22s infinite;
+  animation-delay: 0s;
+}
+
+.gradient3 {
+  width: 180px;
+  height: 180px;
+  animation: gradientFloat3 19s infinite;
+  animation-delay: 0s;
+}
+
+/* Triangle positions and animations */
+.triangle1 {
+  animation: triangleFloat1 10s infinite;
+  animation-delay: 0s;
+}
+
+.triangle2 {
+  animation: triangleFloat2 12s infinite;
+  animation-delay: 0s;
+}
+
+/* Diamond positions and animations */
+.diamond1 {
+  animation: diamondFloat1 9s infinite;
+  animation-delay: 0s;
+}
+
+.diamond2 {
+  animation: diamondFloat2 11s infinite;
+  animation-delay: 0s;
+}
+
+/* Particle positions and animations */
+.particle1 {
+  width: 4px;
+  height: 4px;
+  animation: particleFloat1 7s infinite;
+}
+
+.particle2 {
+  width: 6px;
+  height: 6px;
+  animation: particleFloat2 9s infinite;
+  animation-delay: 0s;
+}
+
+.particle3 {
+  width: 3px;
+  height: 3px;
+  animation: particleFloat3 6s infinite;
+  animation-delay: 0s;
+}
+
+.particle4 {
+  width: 5px;
+  height: 5px;
+  animation: particleFloat4 8s infinite;
+  animation-delay: 0s;
+}
+
+.particle5 {
+  width: 4px;
+  height: 4px;
+  animation: particleFloat5 7s infinite;
+  animation-delay: 0s;
+}
+
+.particle6 {
+  width: 6px;
+  height: 6px;
+  animation: particleFloat6 9s infinite;
+  animation-delay: 0s;
+}
+
+
+
+@keyframes floatUp {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.25; }
+  20% { transform: translateY(-40px) translateX(15px) scale(1.05); opacity: 0.25; }
+  50% { transform: translateY(-50px) translateX(-10px) scale(0.95); opacity: 0.25; }
+  80% { transform: translateY(-30px) translateX(10px) scale(1.02); opacity: 0.25; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.25; }
+}
+
+@keyframes gradientFloat1 {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); opacity: 0.6; }
+  25% { transform: translateY(-35px) translateX(25px) rotate(90deg) scale(1.05); opacity: 0.6; }
+  50% { transform: translateY(-65px) translateX(-15px) rotate(180deg) scale(0.95); opacity: 0.6; }
+  75% { transform: translateY(-50px) translateX(35px) rotate(270deg) scale(1.02); opacity: 0.6; }
+  100% { transform: translateY(0px) translateX(0px) rotate(360deg) scale(1); opacity: 0.6; }
+}
+
+@keyframes gradientFloat2 {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); opacity: 0.55; }
+  33% { transform: translateY(-50px) translateX(-30px) rotate(120deg) scale(1.08); opacity: 0.55; }
+  66% { transform: translateY(-75px) translateX(20px) rotate(240deg) scale(0.92); opacity: 0.55; }
+  100% { transform: translateY(0px) translateX(0px) rotate(360deg) scale(1); opacity: 0.55; }
+}
+
+@keyframes gradientFloat3 {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg) scale(1); opacity: 0.65; }
+  40% { transform: translateY(-40px) translateX(35px) rotate(160deg) scale(1.06); opacity: 0.65; }
+  80% { transform: translateY(-60px) translateX(-25px) rotate(320deg) scale(0.97); opacity: 0.65; }
+  100% { transform: translateY(0px) translateX(0px) rotate(360deg) scale(1); opacity: 0.65; }
+}
+
+/* Triangle animations */
+@keyframes triangleFloat1 {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.8; }
+  50% { transform: translateY(-35px) translateX(18px) rotate(180deg); opacity: 0.8; }
+  100% { transform: translateY(0px) translateX(0px) rotate(360deg); opacity: 0.8; }
+}
+
+@keyframes triangleFloat2 {
+  0% { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0.75; }
+  33% { transform: translateY(-25px) translateX(-12px) rotate(120deg); opacity: 0.75; }
+  66% { transform: translateY(-40px) translateX(20px) rotate(240deg); opacity: 0.75; }
+  100% { transform: translateY(0px) translateX(0px) rotate(360deg); opacity: 0.75; }
+}
+
+/* Diamond animations */
+@keyframes diamondFloat1 {
+  0% { transform: translateY(0px) translateX(0px) rotate(45deg) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-30px) translateX(12px) rotate(225deg) scale(1.08); opacity: 0.8; }
+  100% { transform: translateY(0px) translateX(0px) rotate(405deg) scale(1); opacity: 0.8; }
+}
+
+@keyframes diamondFloat2 {
+  0% { transform: translateY(0px) translateX(0px) rotate(45deg) scale(1); opacity: 0.75; }
+  25% { transform: translateY(-20px) translateX(-8px) rotate(135deg) scale(0.95); opacity: 0.75; }
+  75% { transform: translateY(-35px) translateX(16px) rotate(315deg) scale(1.05); opacity: 0.75; }
+  100% { transform: translateY(0px) translateX(0px) rotate(405deg) scale(1); opacity: 0.75; }
+}
+
+/* Particle animations */
+@keyframes particleFloat1 {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
+  50% { transform: translateY(-50px) translateX(25px) scale(1.2); opacity: 0.85; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
+}
+
+@keyframes particleFloat2 {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
+  33% { transform: translateY(-35px) translateX(-16px) scale(0.8); opacity: 0.8; }
+  66% { transform: translateY(-65px) translateX(12px) scale(1.1); opacity: 0.8; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
+}
+
+@keyframes particleFloat3 {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
+  50% { transform: translateY(-40px) translateX(-20px) scale(1.3); opacity: 0.85; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
+}
+
+@keyframes particleFloat4 {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.75; }
+  40% { transform: translateY(-35px) translateX(25px) scale(0.7); opacity: 0.75; }
+  80% { transform: translateY(-70px) translateX(-10px) scale(1.4); opacity: 0.75; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.75; }
+}
+
+@keyframes particleFloat5 {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-45px) translateX(20px) scale(1.2); opacity: 0.8; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
+}
+
+@keyframes particleFloat6 {
+  0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
+  25% { transform: translateY(-30px) translateX(-15px) scale(0.8); opacity: 0.85; }
+  75% { transform: translateY(-55px) translateX(30px) scale(1.6); opacity: 0.85; }
+  100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .floating-orb,
+  .floating-gradient {
+    opacity: 0.8;
+  }
+  
+  .floating-shape,
+  .particle {
+    opacity: 0.85;
+  }
+  
+  .orb1, .gradient1 {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .orb2, .gradient2 {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .orb3, .gradient3 {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .orb4 {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .orb5 {
+    width: 65px;
+    height: 65px;
+  }
+  
+  /* Reduce triangle size */
+  .triangle1, .triangle2 {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 18px solid rgba(137, 207, 240, 0.2);
+  }
+  
+  /* Reduce diamond size */
+  .diamond1, .diamond2 {
+    width: 15px;
+    height: 15px;
+  }
+  
+  /* Reduce particle size */
+  .particle1, .particle3, .particle5 {
+    width: 3px;
+    height: 3px;
+  }
+  
+  .particle2, .particle4, .particle6 {
+    width: 4px;
+    height: 4px;
+  }
+  
+
+}
+
+@media (max-width: 480px) {
+  .floating-orb,
+  .floating-gradient {
+    opacity: 0.7;
+  }
+  
+  .floating-shape,
+  .particle {
+    opacity: 0.8;
+  }
+  
+  .orb1, .gradient1 {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .orb2, .gradient2 {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .orb3, .gradient3 {
+    width: 55px;
+    height: 55px;
+  }
+  
+  .orb4 {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .orb5 {
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* Smaller triangles on mobile */
+  .triangle1, .triangle2 {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 14px solid rgba(137, 207, 240, 0.2);
+  }
+  
+  /* Smaller diamonds on mobile */
+  .diamond1, .diamond2 {
+    width: 12px;
+    height: 12px;
+  }
+  
+  /* Smaller particles on mobile */
+  .particle1, .particle3, .particle5 {
+    width: 2px;
+    height: 2px;
+  }
+  
+  .particle2, .particle4, .particle6 {
+    width: 3px;
+    height: 3px;
+  }
+  
+
+}
