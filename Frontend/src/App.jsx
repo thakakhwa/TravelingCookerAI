@@ -3,6 +3,9 @@ import { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+// Context
+import { AuthProvider } from './contexts/AuthContext';
+
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -26,23 +29,25 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <Router>
-      <div className="app-container">
-        <BackgroundAnimations />
-        <ScrollToTop />
-        <Navbar />
-        
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
+    <AuthProvider>
+      <Router>
+        <div className="app-container">
+          <BackgroundAnimations />
+          <ScrollToTop />
+          <Navbar />
+          
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </div>
+          
+          <Footer />
         </div>
-        
-        <Footer />
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 
