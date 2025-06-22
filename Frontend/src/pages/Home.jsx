@@ -1,47 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import ChatSidebar from '../components/ChatSidebar';
+import TravelPlannerForm from '../components/TravelPlannerForm';
 
 const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
   const { user, isAuthenticated } = useAuth();
-  const [destination, setDestination] = useState('');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (destination.trim()) {
-      setIsSearching(true);
-      // Simulate search delay
-      await new Promise(resolve => setTimeout(resolve, 800));
-      alert(`Searching for trips to ${destination}...`);
-      setIsSearching(false);
-    }
+  const handleTravelPlanSubmit = async (formData) => {
+    console.log('Travel plan submitted:', formData);
+    // Here you would typically send the data to your backend API
+    // For now, we'll just show an alert with the data
+    const destination = formData.destination === 'Other' 
+      ? `${formData.customCity}, ${formData.customCountry}` 
+      : formData.destination;
+    alert(`Thank you! We're creating your travel plan for ${destination}. 
+Budget: ${formData.budget.toLocaleString()} JOD
+Dates: ${formData.startDate} to ${formData.endDate}
+Travelers: ${formData.travelers}
+Activities: ${formData.activities || 'Not specified'}
+Food preferences: ${formData.foodPreferences || 'Not specified'}`);
   };
-
-  // Animation for placeholder text
-  const placeholderTexts = [
-    "Enter your dream destination and preferences...",
-    "Example: Weekend in Paris under $2000",
-    "Example: Tokyo food tour with local guides",
-    "Example: Bali beach resort with spa",
-    "Example: Family trip to Disney World",
-    "Example: Hiking in Swiss Alps, need gear rental",
-    "Example: Greek islands, 2 weeks, local cuisine",
-    "Example: Dubai luxury shopping & desert safari",
-    "Example: Costa Rica eco-tour, wildlife focus",
-    "Example: Northern lights trip to Iceland"
-  ];
-  const [placeholderIndex, setPlaceholderIndex] = useState(0);
-
-  useEffect(() => {
-    if (!isSearchFocused) {
-      const interval = setInterval(() => {
-        setPlaceholderIndex((prev) => (prev + 1) % placeholderTexts.length);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [isSearchFocused]);
 
   return (
     <div className="home-container">
@@ -56,38 +34,26 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
       
       {/* Main content with adjusted margin when sidebar is visible */}
       <div className={`main-content ${isAuthenticated ? (sidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar') : ''}`}>
-        {/* Hero Section */}
-        <section className="hero-section">
-          <div className="hero-content">
-            <p className="tagline">
+        {/* Compact Welcome Section */}
+        <section className="hero-section-compact">
+          <div className="hero-content-compact">
+            <h1 className="welcome-title">
               {isAuthenticated 
-                ? `Welcome back, ${user?.username}! How can I help you plan your trip today?`
-                : "How can I help you plan your trip today?"
+                ? `Welcome back, ${user?.username}! 🌍`
+                : "Plan Your Perfect Trip 🌍"
+              }
+            </h1>
+            <p className="welcome-subtitle">
+              {isAuthenticated 
+                ? "Let's create your next amazing adventure!"
+                : "Tell us about your dream destination and we'll create a personalized itinerary"
               }
             </p>
-            <form className="search-form" onSubmit={handleSearch}>
-              <div className={`search-container ${isSearchFocused ? 'focused' : ''} ${isSearching ? 'searching' : ''}`}>
-                <input
-                  type="text"
-                  className="search-input"
-                  placeholder={placeholderTexts[placeholderIndex]}
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setIsSearchFocused(false)}
-                  disabled={isSearching}
-                  aria-label="Search destination"
-                />
-                <button 
-                  type="submit" 
-                  className="search-button"
-                  disabled={!destination.trim() || isSearching}
-                  aria-label={isSearching ? 'Searching...' : 'Search'}
-                />
-              </div>
-            </form>
           </div>
         </section>
+
+        {/* Travel Planner Form */}
+        <TravelPlannerForm onSubmit={handleTravelPlanSubmit} />
 
         {/* Services Section */}
         <section className="services-section">
@@ -122,23 +88,19 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
           <div className="steps">
             <div className="step">
               <div className="step-number">1</div>
-              <h3>Tell us your destination</h3>
-              <p>Share where you want to go and your preferences</p>
+              <h3>Answer our questions</h3>
+              <p>Tell us your destination, dates, budget, and preferences</p>
             </div>
             <div className="step">
               <div className="step-number">2</div>
-              <h3>We plan everything</h3>
-              <p>Our experts handle all the details and bookings</p>
+              <h3>AI creates your plan</h3>
+              <p>Our AI analyzes your answers and creates a personalized itinerary</p>
             </div>
             <div className="step">
               <div className="step-number">3</div>
-              <h3>Enjoy your trip</h3>
-              <p>Relax and experience your perfectly planned journey</p>
+              <h3>Enjoy your adventure</h3>
+              <p>Follow your custom plan and make unforgettable memories</p>
             </div>
-          </div>
-          
-          <div className="cta-container">
-            <a href="/" className="cta-button">Start Planning Your Trip</a>
           </div>
         </section>
       </div>

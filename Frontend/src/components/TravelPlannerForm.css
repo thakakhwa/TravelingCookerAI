@@ -1,0 +1,563 @@
+.travel-planner-form {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+  padding: 2rem;
+  background: var(--card-bg);
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 40px rgba(0, 87, 255, 0.1);
+  backdrop-filter: blur(20px);
+  animation: fadeInUp 0.6s ease-out;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: top center;
+  overflow: visible;
+  min-height: 600px;
+  height: auto;
+}
+
+/* Removed expanding/shrinking animations that were causing refresh issues */
+
+.form-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.form-header h2 {
+  color: var(--primary-color);
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, var(--primary-color), #00aaff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Progress Bar */
+.progress-bar {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.progress-step.active .step-number {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0, 87, 255, 0.4);
+}
+
+.progress-step.completed .step-number {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+}
+
+.step-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.progress-step.active .step-label,
+.progress-step.completed .step-label {
+  color: var(--primary-color);
+}
+
+.progress-line {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  right: 25px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  transition: width 0.5s ease;
+  border-radius: 1px;
+}
+
+/* Form Content */
+.form-content {
+  animation: fadeIn 0.4s ease-out;
+  position: relative;
+  min-height: auto;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.form-content.step-1,
+.form-content.step-2,
+.form-content.step-3 {
+  min-height: auto;
+  height: auto;
+}
+
+.form-step {
+  padding-bottom: 1rem;
+  /* Simplified animation that doesn't require JavaScript manipulation */
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  overflow: visible;
+  position: relative;
+}
+
+.form-step h3 {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  /* Simplified animation */
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Remove the complex animation delays that were causing issues */
+.form-group:nth-child(1),
+.form-group:nth-child(2), 
+.form-group:nth-child(3),
+.form-group:nth-child(4),
+.form-group:nth-child(5) { 
+  animation-delay: 0s;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: var(--background-color);
+  color: var(--text-color);
+  padding: 0.5rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Form Navigation */
+.form-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 10;
+  background: var(--card-bg);
+  border-radius: 0 0 20px 20px;
+  margin: 3rem -2rem -2rem -2rem;
+  padding: 2rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-submit {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  justify-content: center;
+  position: relative;
+  z-index: 100;
+  opacity: 1 !important;
+  visibility: visible !important;
+  min-height: 44px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+  margin-left: auto;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 87, 255, 0.3);
+}
+
+.btn-primary:disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  margin-left: auto;
+  font-size: 1.1rem;
+  padding: 1.2rem 2.5rem;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 87, 255, 0.4);
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Removed problematic animation keyframes that were causing refresh issues */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scaleY(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .travel-planner-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .form-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .progress-steps {
+    margin: 0 -1rem;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .step-label {
+    font-size: 0.8rem;
+  }
+
+  .progress-line {
+    left: 20px;
+    right: 20px;
+    top: 20px;
+  }
+
+  .form-navigation {
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem -1.5rem -1.5rem -1.5rem;
+    padding: 1.5rem;
+    position: relative;
+    z-index: 15;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-submit {
+    width: 100%;
+    order: 2;
+    position: relative;
+    z-index: 20;
+  }
+
+  .btn-secondary {
+    order: 1;
+  }
+
+  .form-step {
+    padding-bottom: 0.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .travel-planner-form {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .form-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Date input styling for webkit browsers */
+.form-group input[type="date"] {
+  position: relative;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%230057ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>') no-repeat;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Custom scrollbar for textarea */
+.form-group textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-group textarea::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.form-group textarea::-webkit-scrollbar-thumb {
+  background: rgba(0, 87, 255, 0.3);
+  border-radius: 3px;
+}
+
+.form-group textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 87, 255, 0.5);
+}
+
+/* Custom Destination Input */
+.custom-destination-fields {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  animation: slideIn 0.3s ease-out;
+}
+
+.custom-destination-input {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .custom-destination-fields {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Budget Slider Styles */
+.budget-slider-group {
+  margin-bottom: 2rem;
+}
+
+.budget-value {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
+}
+
+.budget-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.budget-min, .budget-max {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  min-width: 40px;
+}
+
+.budget-slider {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.budget-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 87, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.budget-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 87, 255, 0.5);
+}
+
+.budget-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 87, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.budget-slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 87, 255, 0.5);
+}
+
+.budget-slider::-webkit-slider-track {
+  background: linear-gradient(to right, 
+    #28a745 0%, 
+    #ffc107 50%, 
+    #dc3545 100%);
+  height: 8px;
+  border-radius: 4px;
+}
+
+.budget-slider::-moz-range-track {
+  background: linear-gradient(to right, 
+    #28a745 0%, 
+    #ffc107 50%, 
+    #dc3545 100%);
+  height: 8px;
+  border-radius: 4px;
+  border: none;
+}
+
+ 
