@@ -85,6 +85,9 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
             <li className={isActive('/')}>
               <Link to="/">Home</Link>
             </li>
+            <li className={isActive('/plans')}>
+              <Link to="/plans">Plans</Link>
+            </li>
             <li className={isActive('/about')}>
               <Link to="/about">About Our AI</Link>
             </li>

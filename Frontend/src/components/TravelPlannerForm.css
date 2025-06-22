@@ -304,15 +304,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 10;
   background: var(--card-bg);
   border-radius: 0 0 20px 20px;
-  margin: 3rem -2rem -2rem -2rem;
-  padding: 2rem;
+  margin: 0.75rem -2rem -2rem -2rem;
+  padding: 1rem 2rem 2rem 2rem;
 }
 
 .btn-primary,
@@ -456,8 +456,8 @@
   .form-navigation {
     flex-direction: column;
     gap: 1rem;
-    margin: 2rem -1.5rem -1.5rem -1.5rem;
-    padding: 1.5rem;
+    margin: 0.5rem -1.5rem -1.5rem -1.5rem;
+    padding: 0.75rem 1.5rem 1.5rem 1.5rem;
     position: relative;
     z-index: 15;
   }
@@ -641,9 +641,12 @@
 
 /* Light theme styles for travel planner form */
 [data-theme="light"] .travel-planner-form {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 102, 255, 0.15);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 102, 255, 0.08);
 }
 
 [data-theme="light"] .form-header h2 {
@@ -711,8 +714,8 @@
 }
 
 [data-theme="light"] .form-navigation {
-  background: rgba(255, 255, 255, 0.95);
-  border-top-color: rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-top-color: rgba(0, 102, 255, 0.15);
 }
 
 [data-theme="light"] .budget-slider::-webkit-slider-track {

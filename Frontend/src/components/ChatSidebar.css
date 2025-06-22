@@ -326,6 +326,11 @@
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+[data-theme="light"] .chat-sidebar.collapsed {
+  background: transparent;
+  border-right: none;
+}
+
 [data-theme="light"] .sidebar-header {
   background: rgba(0, 87, 255, 0.02);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

@@ -2,23 +2,29 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import ChatSidebar from '../components/ChatSidebar';
 import TravelPlannerForm from '../components/TravelPlannerForm';
+import TravelPlanResults from '../components/TravelPlanResults';
 
 const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
   const { user, isAuthenticated } = useAuth();
+  const [showResults, setShowResults] = useState(false);
+  const [planData, setPlanData] = useState(null);
 
   const handleTravelPlanSubmit = async (formData) => {
     console.log('Travel plan submitted:', formData);
-    // Here you would typically send the data to your backend API
-    // For now, we'll just show an alert with the data
-    const destination = formData.destination === 'Other' 
-      ? `${formData.customCity}, ${formData.customCountry}` 
-      : formData.destination;
-    alert(`Thank you! We're creating your travel plan for ${destination}. 
-Budget: ${formData.budget.toLocaleString()} JOD
-Dates: ${formData.startDate} to ${formData.endDate}
-Travelers: ${formData.travelers}
-Activities: ${formData.activities || 'Not specified'}
-Food preferences: ${formData.foodPreferences || 'Not specified'}`);
+    // Store the form data and show results
+    setPlanData(formData);
+    setShowResults(true);
+  };
+
+  const handleBackToForm = () => {
+    setShowResults(false);
+  };
+
+  const handleNewPlan = () => {
+    setShowResults(false);
+    setPlanData(null);
+    // Optionally scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -52,8 +58,16 @@ Food preferences: ${formData.foodPreferences || 'Not specified'}`);
           </div>
         </section>
 
-        {/* Travel Planner Form */}
-        <TravelPlannerForm onSubmit={handleTravelPlanSubmit} />
+        {/* Travel Planner Form or Results */}
+        {!showResults ? (
+          <TravelPlannerForm onSubmit={handleTravelPlanSubmit} />
+        ) : (
+          <TravelPlanResults 
+            formData={planData} 
+            onBack={handleBackToForm}
+            onNewPlan={handleNewPlan}
+          />
+        )}
 
         {/* Services Section */}
         <section className="services-section">
