@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import AuthModal from './AuthModal';
 import ProfileModal from './ProfileModal';
+import SettingsModal from './SettingsModal';
 
 function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
   const location = useLocation();
@@ -11,6 +12,7 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
   const [authMode, setAuthMode] = useState('login');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   
   const isActive = (path) => {
     return location.pathname === path ? 'active' : '';
@@ -28,6 +30,11 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
 
   const handleProfileClick = () => {
     setShowProfileModal(true);
+    setShowUserMenu(false);
+  };
+
+  const handleSettingsClick = () => {
+    setShowSettingsModal(true);
     setShowUserMenu(false);
   };
 
@@ -105,7 +112,7 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
                     <p className="user-email">{user?.email}</p>
                   </div>
                   <hr />
-                  <button className="dropdown-item">
+                  <button className="dropdown-item" onClick={handleSettingsClick}>
                     <span>⚙️</span> Settings
                   </button>
                   <button className="dropdown-item" onClick={handleProfileClick}>
@@ -146,6 +153,11 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
       <ProfileModal 
         isOpen={showProfileModal}
         onClose={() => setShowProfileModal(false)}
+      />
+
+      <SettingsModal 
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
       />
     </>
   );

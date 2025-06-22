@@ -5,6 +5,7 @@ import './App.css';
 
 // Context
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -50,38 +51,40 @@ function App() {
   };
 
   return (
-    <AuthProvider>
-      <Router>
-        <div className="app-container">
-          <BackgroundAnimations />
-          <ScrollToTop />
-          <Navbar 
-            sidebarCollapsed={sidebarCollapsed}
-            onToggleSidebar={handleToggleSidebar}
-            onNewChat={handleNewChat}
-          />
-          
-          <div className="content">
-            <Routes>
-              <Route 
-                path="/" 
-                element={
-                  <Home 
-                    sidebarCollapsed={sidebarCollapsed}
-                    onToggleSidebar={handleToggleSidebar}
-                    onNewChat={handleNewChat}
-                  />
-                } 
-              />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-            </Routes>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="app-container">
+            <BackgroundAnimations />
+            <ScrollToTop />
+            <Navbar 
+              sidebarCollapsed={sidebarCollapsed}
+              onToggleSidebar={handleToggleSidebar}
+              onNewChat={handleNewChat}
+            />
+            
+            <div className="content">
+              <Routes>
+                <Route 
+                  path="/" 
+                  element={
+                    <Home 
+                      sidebarCollapsed={sidebarCollapsed}
+                      onToggleSidebar={handleToggleSidebar}
+                      onNewChat={handleNewChat}
+                    />
+                  } 
+                />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+              </Routes>
+            </div>
+            
+            <Footer />
           </div>
-          
-          <Footer />
-        </div>
-      </Router>
-    </AuthProvider>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

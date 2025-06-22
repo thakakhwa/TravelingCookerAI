@@ -64,7 +64,33 @@
   animation-iteration-count: infinite;
 }
 
+/* Light theme styles for background animations */
+[data-theme="light"] .floating-orb {
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.3), rgba(0, 82, 204, 0.2));
+  opacity: 0.15;
+}
 
+[data-theme="light"] .floating-gradient {
+  background: linear-gradient(45deg, rgba(0, 102, 255, 0.2), rgba(0, 82, 204, 0.15));
+  opacity: 0.1;
+}
+
+[data-theme="light"] .triangle1, 
+[data-theme="light"] .triangle2 {
+  border-bottom-color: rgba(0, 102, 255, 0.25);
+  opacity: 0.4;
+}
+
+[data-theme="light"] .diamond1, 
+[data-theme="light"] .diamond2 {
+  background: linear-gradient(45deg, rgba(0, 102, 255, 0.25), rgba(0, 82, 204, 0.2));
+  opacity: 0.4;
+}
+
+[data-theme="light"] .particle {
+  background: rgba(0, 102, 255, 0.3);
+  opacity: 0.6;
+}
 
 /* Orb positions and animations */
 .orb1 {
@@ -186,8 +212,6 @@
   animation-delay: 0s;
 }
 
-
-
 @keyframes floatUp {
   0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.25; }
   20% { transform: translateY(-40px) translateX(15px) scale(1.05); opacity: 0.25; }
@@ -286,8 +310,6 @@
   100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.85; }
 }
 
-
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .floating-orb,
@@ -349,7 +371,6 @@
     height: 4px;
   }
   
-
 }
 
 @media (max-width: 480px) {
@@ -412,5 +433,4 @@
     height: 3px;
   }
   
-
 }

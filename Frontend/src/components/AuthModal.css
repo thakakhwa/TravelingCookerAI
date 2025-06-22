@@ -362,4 +362,91 @@
   .form-group input {
     border-width: 3px;
   }
+}
+
+/* Light theme styles for AuthModal */
+[data-theme="light"] .auth-modal-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .auth-modal {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(0, 102, 255, 0.15);
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 102, 255, 0.08),
+    0 0 50px rgba(0, 102, 255, 0.05);
+}
+
+[data-theme="light"] .auth-modal-close {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] .auth-modal-close:hover {
+  background: rgba(0, 102, 255, 0.1);
+  color: var(--primary-color);
+  border-color: rgba(0, 102, 255, 0.3);
+}
+
+[data-theme="light"] .auth-modal-header {
+  background: rgba(0, 102, 255, 0.02);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .form-group input {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  color: var(--text-color);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .form-group input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .form-group input:focus {
+  background: rgba(0, 102, 255, 0.02);
+  border-color: var(--primary-color);
+  box-shadow: 
+    0 0 0 4px rgba(0, 102, 255, 0.15),
+    0 8px 32px rgba(0, 102, 255, 0.1);
+}
+
+[data-theme="light"] .form-group input.error {
+  background: rgba(239, 68, 68, 0.02);
+  border-color: #ef4444;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.08);
+}
+
+[data-theme="light"] .auth-error {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #dc2626;
+}
+
+[data-theme="light"] .auth-submit-btn {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  box-shadow: 
+    0 8px 32px rgba(0, 102, 255, 0.2),
+    0 0 0 1px rgba(0, 102, 255, 0.1);
+}
+
+[data-theme="light"] .auth-submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  box-shadow: 
+    0 12px 40px rgba(0, 102, 255, 0.3),
+    0 0 0 1px rgba(0, 102, 255, 0.2);
+}
+
+[data-theme="light"] .switch-mode-btn {
+  color: var(--primary-color);
+  border-bottom: 1px solid transparent;
+}
+
+[data-theme="light"] .switch-mode-btn:hover {
+  color: var(--secondary-color);
+  border-bottom-color: var(--primary-color);
 } 

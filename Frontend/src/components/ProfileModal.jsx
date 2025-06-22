@@ -102,6 +102,8 @@ const ProfileModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
+
+
           {/* Password Change Section */}
           <div className="profile-section">
             <div className="section-header">

@@ -37,6 +37,7 @@
 .progress-bar {
   position: relative;
   margin-bottom: 2rem;
+  padding-top: 1.5rem; /* Add top padding for animation space */
 }
 
 .progress-steps {
@@ -44,6 +45,7 @@
   justify-content: space-between;
   position: relative;
   z-index: 2;
+  margin-top: 1rem; /* Extra margin for the scale animation */
 }
 
 .progress-step {
@@ -51,7 +53,85 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* Default: no animations for any steps */
+.progress-step {
+  transition: none;
+}
+
+.step-number {
+  transition: none;
+}
+
+.step-label {
+  transition: none;
+}
+
+/* Only allow animations for active and completed steps */
+.progress-step.active,
+.progress-step.completed {
   transition: all 0.3s ease;
+}
+
+.progress-step.active .step-number,
+.progress-step.completed .step-number {
+  transition: all 0.3s ease;
+}
+
+.progress-step.active .step-label,
+.progress-step.completed .step-label {
+  transition: color 0.3s ease;
+}
+
+/* NUCLEAR OPTION: Completely disable all animations for inactive steps */
+.progress-step:not(.active):not(.completed),
+.progress-step:not(.active):not(.completed) *,
+.progress-step:not(.active):not(.completed) *::before,
+.progress-step:not(.active):not(.completed) *::after,
+.progress-step:not(.active):not(.completed)::before,
+.progress-step:not(.active):not(.completed)::after {
+  transition: none !important;
+  animation: none !important;
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  animation-name: none !important;
+  animation-fill-mode: none !important;
+  animation-iteration-count: 0 !important;
+  animation-play-state: paused !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* Force inactive steps to specific grey colors with highest specificity */
+.travel-planner-form .progress-step:not(.active):not(.completed) .step-number,
+.progress-step:not(.active):not(.completed) .step-number {
+  background: rgba(255, 255, 255, 0.1) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+  animation: none !important;
+  /* Block any CSS variables that might be changing */
+  --primary-color: rgba(255, 255, 255, 0.1) !important;
+  --accent-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.travel-planner-form .progress-step:not(.active):not(.completed) .step-label,
+.progress-step:not(.active):not(.completed) .step-label {
+  color: rgba(255, 255, 255, 0.6) !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Only allow scale transform for active step numbers */
+.progress-step.active .step-number {
+  transform: scale(1.1) !important;
 }
 
 .step-number {
@@ -65,7 +145,6 @@
   justify-content: center;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.6);
-  transition: all 0.3s ease;
 }
 
 .progress-step.active .step-number {
@@ -86,7 +165,6 @@
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
-  transition: color 0.3s ease;
 }
 
 .progress-step.active .step-label,
@@ -96,11 +174,11 @@
 
 .progress-line {
   position: absolute;
-  top: 25px;
+  top: calc(1.5rem + 1rem + 25px); /* padding-top + margin-top + half circle height */
   left: 25px;
   right: 25px;
   height: 2px;
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent; /* Remove the background line */
   z-index: 1;
 }
 
@@ -109,6 +187,7 @@
   background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   transition: width 0.5s ease;
   border-radius: 1px;
+  position: relative;
 }
 
 /* Form Content */
@@ -371,7 +450,7 @@
   .progress-line {
     left: 20px;
     right: 20px;
-    top: 20px;
+    top: calc(1.5rem + 1rem + 20px); /* padding-top + margin-top + half of 40px mobile circle */
   }
 
   .form-navigation {
@@ -558,6 +637,178 @@
   height: 8px;
   border-radius: 4px;
   border: none;
+}
+
+/* Light theme styles for travel planner form */
+[data-theme="light"] .travel-planner-form {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .form-header h2 {
+  background: linear-gradient(135deg, var(--primary-color), #00aaff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .step-number {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .progress-step.active .step-number {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+[data-theme="light"] .progress-step.completed .step-number {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+}
+
+[data-theme="light"] .step-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .progress-step.active .step-label,
+[data-theme="light"] .progress-step.completed .step-label {
+  color: var(--primary-color);
+}
+
+[data-theme="light"] .progress-line {
+  background: transparent; /* Remove background in light theme too */
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .form-group textarea {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--text-color);
+}
+
+[data-theme="light"] .form-group input:focus,
+[data-theme="light"] .form-group select:focus,
+[data-theme="light"] .form-group textarea:focus {
+  background: rgba(0, 102, 255, 0.02);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+}
+
+[data-theme="light"] .form-group input::placeholder,
+[data-theme="light"] .form-group textarea::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .form-group select option {
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+[data-theme="light"] .form-navigation {
+  background: rgba(255, 255, 255, 0.95);
+  border-top-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .budget-slider::-webkit-slider-track {
+  background: linear-gradient(90deg, 
+    #22c55e 0%,     /* Green for low budget */
+    #eab308 50%,    /* Yellow for medium budget */
+    #ef4444 100%    /* Red for high budget */
+  );
+}
+
+[data-theme="light"] .budget-slider::-moz-range-track {
+  background: linear-gradient(90deg, 
+    #22c55e 0%,     /* Green for low budget */
+    #eab308 50%,    /* Yellow for medium budget */
+    #ef4444 100%    /* Red for high budget */
+  );
+}
+
+/* Light theme button styles */
+[data-theme="light"] .btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+[data-theme="light"] .btn-primary:hover:not(:disabled) {
+  background: var(--secondary-color);
+  box-shadow: 0 8px 25px rgba(0, 102, 255, 0.3);
+}
+
+[data-theme="light"] .btn-primary:disabled {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .btn-secondary {
+  background: transparent;
+  color: var(--text-color);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .btn-secondary:hover {
+  background: rgba(0, 102, 255, 0.08);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+[data-theme="light"] .btn-submit {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+}
+
+[data-theme="light"] .btn-submit:hover {
+  background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+  box-shadow: 0 12px 30px rgba(0, 102, 255, 0.4);
+}
+
+[data-theme="light"] .budget-min, 
+[data-theme="light"] .budget-max {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .budget-value {
+  color: var(--primary-color);
+}
+
+/* Light theme: NUCLEAR OPTION for inactive steps */
+[data-theme="light"] .travel-planner-form .progress-step:not(.active):not(.completed) .step-number,
+[data-theme="light"] .progress-step:not(.active):not(.completed) .step-number {
+  background: rgba(0, 0, 0, 0.05) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border: 2px solid rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+  animation: none !important;
+  animation-name: none !important;
+  animation-fill-mode: none !important;
+  animation-iteration-count: 0 !important;
+  animation-play-state: paused !important;
+  will-change: auto !important;
+  /* Block any CSS variables */
+  --primary-color: rgba(0, 0, 0, 0.05) !important;
+  --accent-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .travel-planner-form .progress-step:not(.active):not(.completed) .step-label,
+[data-theme="light"] .progress-step:not(.active):not(.completed) .step-label {
+  color: rgba(0, 0, 0, 0.6) !important;
+  transition: none !important;
+  animation: none !important;
+  animation-name: none !important;
+  animation-fill-mode: none !important;
+  animation-iteration-count: 0 !important;
+  animation-play-state: paused !important;
 }
 
  

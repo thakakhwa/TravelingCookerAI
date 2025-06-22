@@ -318,4 +318,43 @@
     width: 100vw !important;
     max-width: 300px;
   }
+}
+
+/* Light theme styles for chat sidebar */
+[data-theme="light"] .chat-sidebar {
+  background: rgba(255, 255, 255, 0.95);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .sidebar-header {
+  background: rgba(0, 87, 255, 0.02);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .session-item {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .session-item:hover {
+  background: rgba(0, 87, 255, 0.05);
+  border-color: rgba(0, 87, 255, 0.2);
+}
+
+[data-theme="light"] .session-item.active {
+  background: rgba(0, 87, 255, 0.1);
+  border-color: var(--primary-color);
+}
+
+[data-theme="light"] .session-count {
+  background: rgba(0, 87, 255, 0.15);
+  color: var(--primary-color);
+}
+
+[data-theme="light"] .chat-sessions::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .chat-sessions::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
 } 
