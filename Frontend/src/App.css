@@ -2086,6 +2086,7 @@ button {
   transform: translateY(-2px);
 }
 
+
 /* Light theme for AI badges and special elements */
 [data-theme="light"] .ai-badge {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
