@@ -342,22 +342,76 @@
 [data-theme="light"] .email-verification-modal {
   background: rgba(255, 255, 255, 0.95);
   border-color: rgba(0, 87, 255, 0.2);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(0, 87, 255, 0.1),
+    0 0 40px rgba(0, 87, 255, 0.1);
 }
 
 [data-theme="light"] .code-input {
   background: rgba(255, 255, 255, 0.8);
   border-color: rgba(0, 87, 255, 0.2);
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .code-input:focus {
+  background: rgba(0, 87, 255, 0.05);
+  border-color: var(--primary-color);
 }
 
 [data-theme="light"] .cancel-button {
   background: rgba(0, 0, 0, 0.05);
   border-color: rgba(0, 0, 0, 0.2);
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .cancel-button:hover {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.3);
 }
 
 [data-theme="light"] .verification-timer,
 [data-theme="light"] .verification-info {
   background: rgba(0, 87, 255, 0.05);
   border-color: rgba(0, 87, 255, 0.15);
+}
+
+[data-theme="light"] .verification-loading {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .loading-spinner {
+  color: var(--primary-color);
+}
+
+[data-theme="light"] .code-input-container label {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .verification-info p {
+  color: #666;
+}
+
+[data-theme="light"] .verification-info strong {
+  color: #1a1a1a;
+}
+
+[data-theme="light"] .verification-timer {
+  color: #666;
+}
+
+[data-theme="light"] .error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #dc2626;
+}
+
+[data-theme="light"] .info-message.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.2);
+  color: #16a34a;
 }
 
 /* Mobile responsiveness */
