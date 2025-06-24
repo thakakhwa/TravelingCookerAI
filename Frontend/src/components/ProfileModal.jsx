@@ -4,8 +4,9 @@ import { useAuth } from '../contexts/AuthContext';
 import './ProfileModal.css';
 
 const ProfileModal = ({ isOpen, onClose }) => {
-  const { user } = useAuth();
+  const { user, deleteAccount } = useAuth();
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   
@@ -17,14 +18,23 @@ const ProfileModal = ({ isOpen, onClose }) => {
     watch
   } = useForm();
 
+  const {
+    register: registerDelete,
+    handleSubmit: handleDeleteSubmit,
+    formState: { errors: deleteErrors },
+    reset: resetDelete
+  } = useForm();
+
   const newPassword = watch('newPassword');
 
   // Close modal and reset form
   const handleClose = () => {
     reset();
+    resetDelete();
     setSuccess('');
     setError('');
     setIsChangingPassword(false);
+    setIsDeleting(false);
     onClose();
   };
 
@@ -68,6 +78,27 @@ const ProfileModal = ({ isOpen, onClose }) => {
     });
   };
 
+  // Handle account deletion
+  const onDeleteSubmit = async (data) => {
+    try {
+      setError('');
+      setSuccess('');
+      
+      const result = await deleteAccount(data.password);
+      
+      if (result.success) {
+        setSuccess('Account deleted successfully. You will be logged out.');
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -101,8 +132,6 @@ const ProfileModal = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-
-
 
           {/* Password Change Section */}
           <div className="profile-section">
@@ -195,6 +224,73 @@ const ProfileModal = ({ isOpen, onClose }) => {
                   </button>
                 </div>
               </form>
+            )}
+          </div>
+
+          {/* Account Management - Delete Account */}
+          <div className="profile-section danger-zone">
+            <div className="section-header">
+              <h3>Account Management</h3>
+              {!isDeleting && (
+                <button 
+                  className="delete-account-btn"
+                  onClick={() => setIsDeleting(true)}
+                >
+                  Delete Account
+                </button>
+              )}
+            </div>
+
+            {isDeleting && (
+              <div className="delete-form-container">
+                <div className="delete-warning">
+                  <h4>⚠️ Permanently Delete Account</h4>
+                  <p>
+                    This action cannot be undone. This will permanently delete your account,
+                    all your travel plans, chat history, and remove all associated data.
+                  </p>
+                </div>
+                
+                <form className="delete-form" onSubmit={handleDeleteSubmit(onDeleteSubmit)}>
+                  <div className="form-group">
+                    <label htmlFor="deletePassword">Confirm Password</label>
+                    <input
+                      type="password"
+                      id="deletePassword"
+                      {...registerDelete('password', {
+                        required: 'Password is required to delete account'
+                      })}
+                      className={deleteErrors.password ? 'error' : ''}
+                      placeholder="Enter your password to confirm"
+                    />
+                    {deleteErrors.password && (
+                      <span className="error-message">{deleteErrors.password.message}</span>
+                    )}
+                  </div>
+
+                  {/* Success/Error Messages */}
+                  {success && <div className="success-message">{success}</div>}
+                  {error && <div className="error-message-box">{error}</div>}
+
+                  <div className="form-actions">
+                    <button 
+                      type="button" 
+                      className="cancel-btn"
+                      onClick={() => {
+                        setIsDeleting(false);
+                        resetDelete();
+                        setError('');
+                        setSuccess('');
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="delete-confirm-btn">
+                      Yes, Delete My Account
+                    </button>
+                  </div>
+                </form>
+              </div>
             )}
           </div>
         </div>

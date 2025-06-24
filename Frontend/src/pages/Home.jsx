@@ -14,6 +14,31 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
     // Store the form data and show results
     setPlanData(formData);
     setShowResults(true);
+    
+    // Scroll to results after a brief delay to ensure the results component is rendered
+    setTimeout(() => {
+      const resultsElement = document.querySelector('.travel-plan-results');
+      if (resultsElement) {
+        resultsElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        });
+      } else {
+        // Fallback: scroll to top of main content
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+          mainContent.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start',
+            inline: 'nearest'
+          });
+        } else {
+          // Final fallback: scroll to top of page
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+    }, 100);
   };
 
   const handleBackToForm = () => {

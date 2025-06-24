@@ -65,8 +65,20 @@ export const AuthProvider = ({ children }) => {
       setError(null);
       
       const response = await axios.post('/auth/register', userData);
-      const { user: newUser, token } = response.data;
+      const { user: newUser, requiresVerification } = response.data;
       
+      // Don't set token or user if verification is required
+      if (requiresVerification) {
+        return { 
+          success: true, 
+          user: newUser, 
+          requiresVerification: true,
+          message: response.data.message
+        };
+      }
+      
+      // Legacy support for immediate login (if verification is disabled)
+      const { token } = response.data;
       setToken(token);
       setUser(newUser);
       
@@ -93,11 +105,58 @@ export const AuthProvider = ({ children }) => {
       
       return { success: true, user: loggedInUser };
     } catch (error) {
-      const errorMessage = error.response?.data?.error || 'Login failed';
+      const errorData = error.response?.data;
+      const errorMessage = errorData?.error || 'Login failed';
+      
+      setError(errorMessage);
+      
+      // Check if verification is required
+      if (errorData?.requiresVerification) {
+        return { 
+          success: false, 
+          error: errorMessage,
+          requiresVerification: true,
+          email: errorData.email
+        };
+      }
+      
+      return { success: false, error: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyEmail = async (email, code) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await axios.post('/auth/verify-email', { email, code });
+      const { user: verifiedUser, token, message } = response.data;
+      
+      setToken(token);
+      setUser(verifiedUser);
+      
+      return { success: true, user: verifiedUser, message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 'Verification failed';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
+    }
+  };
+
+  const resendVerificationCode = async (email) => {
+    try {
+      setError(null);
+      
+      const response = await axios.post('/auth/resend-verification', { email });
+      return { success: true, message: response.data.message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 'Failed to resend code';
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
     }
   };
 
@@ -118,6 +177,30 @@ export const AuthProvider = ({ children }) => {
 
   const clearError = () => setError(null);
 
+  const deleteAccount = async (password) => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await axios.delete('/user/account', {
+        data: { password }
+      });
+      
+      // After successful deletion, log out the user
+      setToken(null);
+      setUser(null);
+      setError(null);
+      
+      return { success: true, message: response.data.message };
+    } catch (error) {
+      const errorMessage = error.response?.data?.error || 'Failed to delete account';
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     user,
     loading,
@@ -126,6 +209,9 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     clearError,
+    verifyEmail,
+    resendVerificationCode,
+    deleteAccount,
     isAuthenticated: !!user
   };
 

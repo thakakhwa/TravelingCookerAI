@@ -306,6 +306,14 @@
 .save-btn {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
   color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(0, 87, 255, 0.2);
 }
 
@@ -550,4 +558,103 @@
 [data-theme="light"] .form-group input:focus {
   background: rgba(0, 87, 255, 0.02);
   border-color: var(--primary-color);
+}
+
+/* Account Management Styles */
+.danger-zone {
+  border: 1px solid rgba(220, 38, 127, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  background: rgba(220, 38, 127, 0.02);
+  margin-top: 32px;
+}
+
+.danger-zone h3 {
+  color: var(--text-color);
+  margin-bottom: 16px;
+}
+
+.delete-account-btn {
+  background: linear-gradient(135deg, #dc267f 0%, #ff6b35 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(220, 38, 127, 0.2);
+}
+
+.delete-account-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(220, 38, 127, 0.3);
+  background: linear-gradient(135deg, #b8155f 0%, #e55a2b 100%);
+}
+
+.delete-form-container {
+  margin-top: 20px;
+}
+
+.delete-warning {
+  background: rgba(220, 38, 127, 0.05);
+  border: 1px solid rgba(220, 38, 127, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.delete-warning h4 {
+  margin: 0 0 8px 0;
+  color: #dc267f;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.delete-warning p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.delete-form {
+  /* Inherits form styles from existing password form */
+}
+
+.delete-confirm-btn {
+  background: linear-gradient(135deg, #dc267f 0%, #ff6b35 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(220, 38, 127, 0.2);
+}
+
+.delete-confirm-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(220, 38, 127, 0.3);
+  background: linear-gradient(135deg, #b8155f 0%, #e55a2b 100%);
+}
+
+.delete-confirm-btn:active {
+  transform: translateY(0);
+}
+
+/* Light theme adjustments for account management */
+[data-theme="light"] .danger-zone {
+  background: rgba(220, 38, 127, 0.03);
+  border-color: rgba(220, 38, 127, 0.15);
+}
+
+[data-theme="light"] .delete-warning {
+  background: rgba(220, 38, 127, 0.08);
+  border-color: rgba(220, 38, 127, 0.15);
 } 
