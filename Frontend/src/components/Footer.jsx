@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
+  
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -12,14 +15,14 @@ const Footer = () => {
         </div>
         
         <div className="footer-links">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
+          <Link to="/">{t('nav.home')}</Link>
+          <Link to="/about">{t('nav.about')}</Link>
+          <Link to="/contact">{t('nav.contact')}</Link>
         </div>
       </div>
       
       <div className="footer-bottom">
-        <p>&copy; 2024 TravelingCookerAI. All rights reserved.</p>
+        <p>&copy; 2024 TravelingCookerAI. {t('footer.allRightsReserved')}</p>
       </div>
     </footer>
   );

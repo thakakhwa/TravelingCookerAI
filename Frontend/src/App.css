@@ -1324,6 +1324,91 @@ button {
   }
 }
 
+/* RTL Support - Keep layout unchanged, only change text direction for Arabic content */
+.rtl {
+  /* Don't change overall direction to avoid layout shifts */
+}
+
+/* Keep logo always in English/LTR */
+.navbar-logo .logo-text {
+  direction: ltr;
+  display: inline-block;
+}
+
+/* Arabic text should be RTL but keep layout positions unchanged */
+.rtl .navbar-links {
+  direction: rtl;
+}
+
+.rtl .user-menu {
+  direction: rtl;
+}
+
+.rtl .auth-buttons {
+  direction: rtl;
+}
+
+.rtl .navbar-center {
+  direction: rtl;
+}
+
+.rtl .navbar-auth {
+  direction: rtl;
+}
+
+.rtl .hero-content {
+  direction: rtl;
+}
+
+.rtl .tagline {
+  direction: rtl;
+}
+
+.rtl .hero-description {
+  direction: rtl;
+}
+
+/* Keep footer content direction unchanged */
+.rtl .footer-links {
+  direction: rtl;
+}
+
+/* Keep footer logo always in English/LTR */
+.footer-logo {
+  direction: ltr;
+  display: inline-block;
+}
+
+/* RTL Mobile adjustments */
+@media (max-width: 768px) {
+  .rtl .navbar-logo.with-sidebar {
+    margin-right: 0;
+    margin-left: auto;
+  }
+  
+  .rtl .navbar-logo.sidebar-collapsed {
+    margin-right: 10px;
+    margin-left: auto;
+  }
+}
+
+/* Arabic font support */
+.lang-ar {
+  font-family: 'Tajawal', 'Amiri', 'Noto Sans Arabic', 'Cairo', Arial, sans-serif;
+}
+
+.lang-ar h1, .lang-ar h2, .lang-ar h3, .lang-ar h4, .lang-ar h5, .lang-ar h6 {
+  font-family: 'Tajawal', 'Amiri', 'Noto Sans Arabic', 'Cairo', Arial, sans-serif;
+  font-weight: 600;
+}
+
+.lang-ar p, .lang-ar span, .lang-ar div {
+  font-family: 'Tajawal', 'Noto Sans Arabic', 'Cairo', Arial, sans-serif;
+}
+
+/* Import Arabic fonts */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700&display=swap');
+
 /* Fixed Sidebar Controls at Top-Left Corner */
 .sidebar-controls-fixed {
   position: fixed;

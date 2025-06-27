@@ -2,10 +2,12 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import './i18n/i18n'; // Initialize i18n
 
 // Context
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -52,41 +54,43 @@ function App() {
   };
 
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <div className="app-container">
-            <BackgroundAnimations />
-            <ScrollToTop />
-            <Navbar 
-              sidebarCollapsed={sidebarCollapsed}
-              onToggleSidebar={handleToggleSidebar}
-              onNewChat={handleNewChat}
-            />
-            
-            <div className="content">
-              <Routes>
-                <Route 
-                  path="/" 
-                  element={
-                    <Home 
-                      sidebarCollapsed={sidebarCollapsed}
-                      onToggleSidebar={handleToggleSidebar}
-                      onNewChat={handleNewChat}
-                    />
-                  } 
-                />
-                <Route path="/plans" element={<Plans />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
+    <LanguageProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
+            <div className="app-container">
+              <BackgroundAnimations />
+              <ScrollToTop />
+              <Navbar 
+                sidebarCollapsed={sidebarCollapsed}
+                onToggleSidebar={handleToggleSidebar}
+                onNewChat={handleNewChat}
+              />
+              
+              <div className="content">
+                <Routes>
+                  <Route 
+                    path="/" 
+                    element={
+                      <Home 
+                        sidebarCollapsed={sidebarCollapsed}
+                        onToggleSidebar={handleToggleSidebar}
+                        onNewChat={handleNewChat}
+                      />
+                    } 
+                  />
+                  <Route path="/plans" element={<Plans />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                </Routes>
+              </div>
+              
+              <Footer />
             </div>
-            
-            <Footer />
-          </div>
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 

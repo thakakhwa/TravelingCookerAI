@@ -1,9 +1,12 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector';
 import './SettingsModal.css';
 
 const SettingsModal = ({ isOpen, onClose }) => {
   const { theme, toggleTheme, isDark } = useTheme();
+  const { t } = useTranslation();
 
   // Close modal
   const handleClose = () => {
@@ -20,19 +23,19 @@ const SettingsModal = ({ isOpen, onClose }) => {
         </button>
         
         <div className="settings-modal-header">
-          <h2>Settings</h2>
-          <p>Customize your experience</p>
+          <h2>{t('settings.title')}</h2>
+          <p>{t('settings.subtitle')}</p>
         </div>
 
         <div className="settings-content">
           {/* Theme Settings Section */}
           <div className="settings-section">
-            <h3>Appearance</h3>
+            <h3>{t('settings.appearance')}</h3>
             <div className="setting-item">
               <div className="setting-info">
-                <span className="setting-label">Theme</span>
+                <span className="setting-label">{t('settings.theme')}</span>
                 <span className="setting-description">
-                  Choose between light and dark theme
+                  {t('settings.themeDesc')}
                 </span>
               </div>
               <div className="theme-toggle-container">
@@ -49,33 +52,32 @@ const SettingsModal = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Future settings sections can be added here */}
+          {/* Language Settings Section */}
           <div className="settings-section">
-            <h3>Preferences</h3>
+            <h3>{t('settings.languageAndRegion')}</h3>
             <div className="setting-item">
               <div className="setting-info">
-                <span className="setting-label">Notifications</span>
+                <span className="setting-label">{t('settings.language')}</span>
                 <span className="setting-description">
-                  Manage your notification preferences
+                  {t('settings.languageDesc')}
                 </span>
               </div>
-              <div className="setting-placeholder">
-                <span className="coming-soon">Coming Soon</span>
-              </div>
+              <LanguageSelector />
             </div>
           </div>
 
+          {/* Future settings sections can be added here */}
           <div className="settings-section">
-            <h3>Language & Region</h3>
+            <h3>{t('settings.preferences')}</h3>
             <div className="setting-item">
               <div className="setting-info">
-                <span className="setting-label">Language</span>
+                <span className="setting-label">{t('settings.notifications')}</span>
                 <span className="setting-description">
-                  Choose your preferred language
+                  {t('settings.notificationsDesc')}
                 </span>
               </div>
               <div className="setting-placeholder">
-                <span className="coming-soon">Coming Soon</span>
+                <span className="coming-soon">{t('settings.comingSoon')}</span>
               </div>
             </div>
           </div>

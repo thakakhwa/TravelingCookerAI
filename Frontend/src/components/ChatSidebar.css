@@ -362,4 +362,17 @@
 
 [data-theme="light"] .chat-sessions::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.3);
+}
+
+/* RTL Support for Chat Sidebar - Keep sidebar on left, only change text direction */
+.rtl .session-meta {
+  direction: rtl;
+}
+
+.rtl .new-chat-btn {
+  direction: ltr; /* Keep the + symbol and text in proper order */
+}
+
+.rtl .sidebar-title {
+  direction: ltr; /* Keep "AI Assistant" in English */
 } 

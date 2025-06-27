@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 import AuthModal from './AuthModal';
 import ProfileModal from './ProfileModal';
 import SettingsModal from './SettingsModal';
@@ -8,6 +9,7 @@ import SettingsModal from './SettingsModal';
 function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
   const location = useLocation();
   const { user, logout, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -83,16 +85,16 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
         <div className="navbar-center">
           <ul className="navbar-links">
             <li className={isActive('/')}>
-              <Link to="/">Home</Link>
+              <Link to="/">{t('nav.home')}</Link>
             </li>
             <li className={isActive('/plans')}>
-              <Link to="/plans">Plans</Link>
+              <Link to="/plans">{t('nav.plans')}</Link>
             </li>
             <li className={isActive('/about')}>
-              <Link to="/about">About Our AI</Link>
+              <Link to="/about">{t('nav.about')}</Link>
             </li>
             <li className={isActive('/contact')}>
-              <Link to="/contact">Contact</Link>
+              <Link to="/contact">{t('nav.contact')}</Link>
             </li>
           </ul>
         </div>
@@ -116,14 +118,14 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
                   </div>
                   <hr />
                   <button className="dropdown-item" onClick={handleSettingsClick}>
-                    <span>⚙️</span> Settings
+                    <span>⚙️</span> {t('nav.settings')}
                   </button>
                   <button className="dropdown-item" onClick={handleProfileClick}>
-                    <span>👤</span> Profile
+                    <span>👤</span> {t('nav.profile')}
                   </button>
                   <hr />
                   <button className="dropdown-item logout" onClick={handleLogout}>
-                    <span>🚪</span> Sign Out
+                    <span>🚪</span> {t('nav.signOut')}
                   </button>
                 </div>
               )}
@@ -134,13 +136,13 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
                 className="login-btn"
                 onClick={() => handleAuthClick('login')}
               >
-                Sign In
+                {t('nav.signIn')}
               </button>
               <button 
                 className="signup-btn"
                 onClick={() => handleAuthClick('signup')}
               >
-                Sign Up
+                {t('nav.signUp')}
               </button>
             </div>
           )}
