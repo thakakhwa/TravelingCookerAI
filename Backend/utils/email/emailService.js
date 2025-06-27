@@ -571,7 +571,7 @@ export const sendVerificationEmail = async (email, username, code) => {
     const transporter = createTransporter();
     
     const mailOptions = {
-      from: `"TravelingCookerAI" <${process.env.EMAIL_USER}>`,
+      from: `"TravelingCookerAI" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Verify Your TravelingCookerAI Account - Let\'s Start Planning!',
       html: getVerificationEmailTemplate(username, code)
@@ -592,7 +592,7 @@ export const sendWelcomeEmail = async (email, username) => {
     const transporter = createTransporter();
     
     const mailOptions = {
-      from: `"TravelingCookerAI" <${process.env.EMAIL_USER}>`,
+      from: `"TravelingCookerAI" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Welcome to TravelingCookerAI - You\'re Ready to Go!',
       html: getWelcomeEmailTemplate(username)

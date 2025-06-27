@@ -465,4 +465,23 @@ router.get('/microsoft/callback',
   }
 );
 
+// Test endpoint to check OAuth configuration
+router.get('/test-oauth-config', (req, res) => {
+  res.json({
+    googleConfigured: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+    microsoftConfigured: !!(process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET),
+    frontendUrl: process.env.FRONTEND_URL,
+    nodeEnv: process.env.NODE_ENV,
+    port: process.env.PORT,
+    envVariablesFound: {
+      GOOGLE_CLIENT_ID: !!process.env.GOOGLE_CLIENT_ID,
+      GOOGLE_CLIENT_SECRET: !!process.env.GOOGLE_CLIENT_SECRET,
+      MICROSOFT_CLIENT_ID: !!process.env.MICROSOFT_CLIENT_ID,
+      MICROSOFT_CLIENT_SECRET: !!process.env.MICROSOFT_CLIENT_SECRET,
+      JWT_SECRET: !!process.env.JWT_SECRET,
+      SESSION_SECRET: !!process.env.SESSION_SECRET
+    }
+  });
+});
+
 export default router; 
