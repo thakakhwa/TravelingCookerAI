@@ -1,7 +1,9 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './TravelPlanResults.css';
 
 const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
+  const { t } = useTranslation();
   const plan = {
     destination: formData.destination === 'Other' ? `${formData.customCity}, ${formData.customCountry}` : formData.destination,
     duration: Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000 * 60 * 60 * 24)),
@@ -61,14 +63,14 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
   return (
     <div className="travel-plan-results">
       <div className="results-header">
-        <h2>Your Perfect Travel Plan is Ready!</h2>
+        <h2>{t('travelResults.title')}</h2>
         <div className="trip-summary">
           <div className="trip-info">
             <span className="destination-name">{plan.destination}</span>
-            <span className="trip-duration">{plan.duration} days • {plan.travelers} travelers</span>
+            <span className="trip-duration">{plan.duration} {t('travelResults.days')} • {plan.travelers} {t('travelResults.travelers')}</span>
           </div>
           <div className="total-cost">
-            <span className="cost-label">Total Cost</span>
+            <span className="cost-label">{t('travelResults.totalCost')}</span>
             <span className="cost-amount">{formatPrice(totalCost)}</span>
           </div>
         </div>
@@ -82,7 +84,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               <svg className="section-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
               </svg>
-              <h3>Your Flights</h3>
+              <h3>{t('travelResults.flights')}</h3>
             </div>
             <div className="section-cost">{formatPrice(plan.flights.outbound.price + plan.flights.return.price)}</div>
           </div>
@@ -161,7 +163,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               <svg className="section-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V6H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/>
               </svg>
-              <h3>Your Accommodation</h3>
+              <h3>{t('travelResults.hotel')}</h3>
             </div>
             <div className="section-cost">{formatPrice(plan.hotel.totalPrice)}</div>
           </div>
@@ -194,7 +196,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
                           <div className="hotel-pricing">
                 <div className="price-per-night">
                   <span className="price">{formatPrice(plan.hotel.pricePerNight)}</span>
-                  <span className="period">per night</span>
+                  <span className="period">{t('travelResults.pricePerNight')}</span>
                 </div>
               </div>
             </div>
@@ -208,7 +210,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               <svg className="section-icon" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
-              <h3>Your Activities</h3>
+              <h3>{t('travelResults.activities')}</h3>
             </div>
             <div className="section-cost">{formatPrice(plan.activities.reduce((sum, a) => sum + a.price, 0))}</div>
           </div>
@@ -243,10 +245,10 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
 
       <div className="results-actions">
         <button onClick={onBack} className="btn-secondary">
-          ← Back to Form
+          ← {t('travelResults.backToForm')}
         </button>
         <button onClick={onNewPlan} className="btn-primary">
-          Plan Another Trip
+          {t('travelResults.newPlan')}
         </button>
       </div>
     </div>

@@ -1,89 +1,93 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
 import './Plans.css';
 
 const Plans = () => {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [billingCycle, setBillingCycle] = useState('monthly');
 
-  const plans = [
+  const getPlans = () => [
     {
       id: 'starter',
-      name: 'Explorer',
-      description: 'Perfect for occasional travelers',
+      name: t('plans.explorer.name'),
+      description: t('plans.explorer.description'),
       monthlyPrice: 9.99,
       yearlyPrice: 99.99,
       credits: 25,
       features: [
-        '25 AI travel plans per month',
-        'Basic destination recommendations',
-        'Flight & hotel suggestions',
-        'Standard support',
-        'Export to PDF'
+        t('plans.explorer.features.feature1'),
+        t('plans.explorer.features.feature2'),
+        t('plans.explorer.features.feature3'),
+        t('plans.explorer.features.feature4'),
+        t('plans.explorer.features.feature5')
       ],
       popular: false,
       color: '#4CAF50'
     },
     {
       id: 'pro',
-      name: 'Wanderer Pro',
-      description: 'For frequent travelers and travel enthusiasts',
+      name: t('plans.wandererPro.name'),
+      description: t('plans.wandererPro.description'),
       monthlyPrice: 19.99,
       yearlyPrice: 199.99,
       credits: 75,
       features: [
-        '75 AI travel plans per month',
-        'Advanced AI recommendations',
-        'Detailed itineraries with activities',
-        'Real-time price comparisons',
-        'Priority support',
-        'Custom travel preferences',
-        'Multiple export formats',
-        'Trip sharing features'
+        t('plans.wandererPro.features.feature1'),
+        t('plans.wandererPro.features.feature2'),
+        t('plans.wandererPro.features.feature3'),
+        t('plans.wandererPro.features.feature4'),
+        t('plans.wandererPro.features.feature5'),
+        t('plans.wandererPro.features.feature6'),
+        t('plans.wandererPro.features.feature7'),
+        t('plans.wandererPro.features.feature8')
       ],
       popular: true,
       color: '#0066ff'
     },
     {
       id: 'business',
-      name: 'Business Traveler',
-      description: 'For travel agencies and business users',
+      name: t('plans.businessTraveler.name'),
+      description: t('plans.businessTraveler.description'),
       monthlyPrice: 49.99,
       yearlyPrice: 499.99,
       credits: 200,
       features: [
-        '200 AI travel plans per month',
-        'Premium AI models & insights',
-        'Multi-destination planning',
-        'Corporate travel features',
-        'API access',
-        'White-label options',
-        '24/7 premium support',
-        'Team collaboration tools',
-        'Advanced analytics',
-        'Custom integrations'
+        t('plans.businessTraveler.features.feature1'),
+        t('plans.businessTraveler.features.feature2'),
+        t('plans.businessTraveler.features.feature3'),
+        t('plans.businessTraveler.features.feature4'),
+        t('plans.businessTraveler.features.feature5'),
+        t('plans.businessTraveler.features.feature6'),
+        t('plans.businessTraveler.features.feature7'),
+        t('plans.businessTraveler.features.feature8'),
+        t('plans.businessTraveler.features.feature9'),
+        t('plans.businessTraveler.features.feature10')
       ],
       popular: false,
       color: '#9C27B0'
     }
   ];
 
+  const plans = getPlans();
+
   const formatPrice = (monthly, yearly) => {
     if (billingCycle === 'monthly') {
-      return `$${monthly}/month`;
+      return `$${monthly}${t('plans.perMonth')}`;
     } else {
       const monthlyEquivalent = yearly / 12;
       return (
         <div>
-          <span className="yearly-price">${yearly}/year</span>
-          <span className="monthly-equivalent">${monthlyEquivalent.toFixed(2)}/month</span>
+          <span className="yearly-price">${yearly}${t('plans.perYear')}</span>
+          <span className="monthly-equivalent">${monthlyEquivalent.toFixed(2)}${t('plans.perMonth')}</span>
         </div>
       );
     }
   };
 
   const getCreditsText = (credits) => {
-    return `${credits} AI Plans`;
+    return `${credits} ${t('plans.aiPlans')}`;
   };
 
   const getCurrentPrice = (plan) => {
@@ -95,21 +99,20 @@ const Plans = () => {
       <div className="plans-container">
         {/* Header Section */}
         <div className="plans-header">
-          <h1>Choose Your AI Travel Planning Experience</h1>
+          <h1>{t('plans.title')}</h1>
           <p className="plans-subtitle">
-            Unlock the power of AI to create perfect travel plans. Each plan includes AI-generated 
-            itineraries, personalized recommendations, and smart travel insights.
+            {t('plans.subtitle')}
           </p>
           
           {/* Billing Toggle */}
           <div className="billing-toggle">
-            <span className={billingCycle === 'monthly' ? 'active' : ''}>Monthly</span>
+            <span className={billingCycle === 'monthly' ? 'active' : ''}>{t('plans.monthly')}</span>
             <div className="toggle-switch" onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}>
               <div className={`toggle-slider ${billingCycle}`}></div>
             </div>
             <span className={billingCycle === 'yearly' ? 'active' : ''}>
-              Yearly 
-              <span className="discount-badge">Save 17%</span>
+              {t('plans.yearly')}
+              <span className="discount-badge">{t('plans.save17')}</span>
             </span>
           </div>
         </div>
@@ -118,7 +121,7 @@ const Plans = () => {
         <div className="plans-grid">
           {plans.map((plan) => (
             <div key={plan.id} className={`plan-card ${plan.popular ? 'popular' : ''}`}>
-              {plan.popular && <div className="popular-badge">Most Popular</div>}
+              {plan.popular && <div className="popular-badge">{t('plans.mostPopular')}</div>}
               
               <div className="plan-header">
                 <div className="plan-icon" style={{ backgroundColor: plan.color }}>
@@ -144,12 +147,12 @@ const Plans = () => {
                 </div>
                 <div className="credits-info">
                   <span className="credits-count">{getCreditsText(plan.credits)}</span>
-                  <span className="credits-description">AI-powered travel plans</span>
+                  <span className="credits-description">{t('plans.aiPoweredTravelPlans')}</span>
                 </div>
               </div>
 
               <div className="plan-features">
-                <h4>What's included:</h4>
+                <h4>{t('plans.whatsIncluded')}</h4>
                 <ul>
                   {plan.features.map((feature, index) => (
                     <li key={index}>
@@ -163,7 +166,7 @@ const Plans = () => {
               </div>
 
               <button className={`plan-button ${plan.popular ? 'popular' : ''}`}>
-                Get Started
+                {t('plans.getStarted')}
               </button>
             </div>
           ))}
@@ -171,7 +174,7 @@ const Plans = () => {
 
         {/* Features Comparison */}
         <div className="features-section">
-          <h2>Why Choose AI-Powered Travel Planning?</h2>
+          <h2>{t('plans.whyChoose')}</h2>
           <div className="features-grid">
             <div className="feature-item">
               <div className="feature-icon">
@@ -179,8 +182,8 @@ const Plans = () => {
                   <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
                 </svg>
               </div>
-              <h3>Smart Itinerary Planning</h3>
-              <p>AI creates optimized daily schedules based on your preferences, time constraints, and local insights.</p>
+              <h3>{t('plans.smartItinerary.title')}</h3>
+              <p>{t('plans.smartItinerary.description')}</p>
             </div>
             
             <div className="feature-item">
@@ -189,8 +192,8 @@ const Plans = () => {
                   <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
               </div>
-              <h3>Personalized Recommendations</h3>
-              <p>Get tailored suggestions for accommodations, activities, and dining based on your travel style and budget.</p>
+              <h3>{t('plans.personalizedRecommendations.title')}</h3>
+              <p>{t('plans.personalizedRecommendations.description')}</p>
             </div>
             
             <div className="feature-item">
@@ -199,8 +202,8 @@ const Plans = () => {
                   <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
                 </svg>
               </div>
-              <h3>Real-Time Updates</h3>
-              <p>Stay informed with live price tracking, weather updates, and last-minute recommendations.</p>
+              <h3>{t('plans.realTimeUpdates.title')}</h3>
+              <p>{t('plans.realTimeUpdates.description')}</p>
             </div>
             
             <div className="feature-item">
@@ -209,31 +212,31 @@ const Plans = () => {
                   <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                 </svg>
               </div>
-              <h3>Detailed Travel Guides</h3>
-              <p>Access comprehensive guides with local tips, cultural insights, and hidden gems discovered by AI.</p>
+              <h3>{t('plans.detailedGuides.title')}</h3>
+              <p>{t('plans.detailedGuides.description')}</p>
             </div>
           </div>
         </div>
 
         {/* FAQ Section */}
         <div className="faq-section">
-          <h2>Frequently Asked Questions</h2>
+          <h2>{t('plans.faq.title')}</h2>
           <div className="faq-grid">
             <div className="faq-item">
-              <h4>How do AI travel plan credits work?</h4>
-              <p>Each credit allows you to generate one complete AI travel plan including itinerary, accommodations, activities, and recommendations. Credits reset monthly.</p>
+              <h4>{t('plans.faq.question1')}</h4>
+              <p>{t('plans.faq.answer1')}</p>
             </div>
             <div className="faq-item">
-              <h4>Can I upgrade or downgrade my plan?</h4>
-              <p>Yes! You can change your plan at any time. Upgrades take effect immediately, and downgrades apply at your next billing cycle.</p>
+              <h4>{t('plans.faq.question2')}</h4>
+              <p>{t('plans.faq.answer2')}</p>
             </div>
             <div className="faq-item">
-              <h4>What happens if I run out of credits?</h4>
-              <p>You can purchase additional credits or upgrade your plan. We'll notify you when you're running low on credits.</p>
+              <h4>{t('plans.faq.question3')}</h4>
+              <p>{t('plans.faq.answer3')}</p>
             </div>
             <div className="faq-item">
-              <h4>Do you offer refunds?</h4>
-              <p>We offer a 30-day money-back guarantee. If you're not satisfied, contact our support team for a full refund.</p>
+              <h4>{t('plans.faq.question4')}</h4>
+              <p>{t('plans.faq.answer4')}</p>
             </div>
           </div>
         </div>

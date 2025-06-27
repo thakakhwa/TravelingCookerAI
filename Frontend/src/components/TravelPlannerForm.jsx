@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import './TravelPlannerForm.css';
 
 const TravelPlannerForm = ({ onSubmit }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     destination: '',
     customCity: '',
@@ -51,28 +53,28 @@ const TravelPlannerForm = ({ onSubmit }) => {
 
 
   const travelStyles = [
-    'Luxury',
-    'Mid-range',
-    'Budget/Backpacking',
-    'Adventure',
-    'Relaxation',
-    'Cultural',
-    'Family-friendly',
-    'Business',
-    'Romantic',
-    'Solo travel'
+    { key: 'luxury', label: t('travelForm.travelStyles.luxury') },
+    { key: 'midRange', label: t('travelForm.travelStyles.midRange') },
+    { key: 'budget', label: t('travelForm.travelStyles.budget') },
+    { key: 'adventure', label: t('travelForm.travelStyles.adventure') },
+    { key: 'relaxation', label: t('travelForm.travelStyles.relaxation') },
+    { key: 'cultural', label: t('travelForm.travelStyles.cultural') },
+    { key: 'family', label: t('travelForm.travelStyles.family') },
+    { key: 'business', label: t('travelForm.travelStyles.business') },
+    { key: 'romantic', label: t('travelForm.travelStyles.romantic') },
+    { key: 'solo', label: t('travelForm.travelStyles.solo') }
   ];
 
   const accommodationTypes = [
-    'Hotel',
-    'Resort',
-    'Boutique Hotel',
-    'Hostel',
-    'Airbnb/Vacation Rental',
-    'Bed & Breakfast',
-    'Camping',
-    'Cruise',
-    'Other'
+    { key: 'hotel', label: t('travelForm.accommodationTypes.hotel') },
+    { key: 'resort', label: t('travelForm.accommodationTypes.resort') },
+    { key: 'boutique', label: t('travelForm.accommodationTypes.boutique') },
+    { key: 'hostel', label: t('travelForm.accommodationTypes.hostel') },
+    { key: 'airbnb', label: t('travelForm.accommodationTypes.airbnb') },
+    { key: 'bnb', label: t('travelForm.accommodationTypes.bnb') },
+    { key: 'camping', label: t('travelForm.accommodationTypes.camping') },
+    { key: 'cruise', label: t('travelForm.accommodationTypes.cruise') },
+    { key: 'other', label: t('travelForm.accommodationTypes.other') }
   ];
 
   const handleInputChange = (e) => {
@@ -183,10 +185,10 @@ const TravelPlannerForm = ({ onSubmit }) => {
       case 1:
         return (
           <div className="form-step">
-            <h3>✈️ Let's start with the basics</h3>
+            <h3>✈️ {t('travelForm.step1Title')}</h3>
             
             <div className="form-group">
-              <label htmlFor="destination">Where do you want to travel?</label>
+              <label htmlFor="destination">{t('travelForm.destination')}</label>
               <select
                 id="destination"
                 name="destination"
@@ -194,9 +196,9 @@ const TravelPlannerForm = ({ onSubmit }) => {
                 onChange={handleInputChange}
                 required
               >
-                <option value="">Select your destination</option>
+                <option value="">{t('travelForm.selectDestination')}</option>
                 {destinations.map((dest, index) => (
-                  <option key={index} value={dest}>{dest}</option>
+                  <option key={index} value={dest}>{dest === 'Other' ? t('travelForm.other') : dest}</option>
                 ))}
               </select>
               
@@ -207,7 +209,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
                     name="customCity"
                     value={formData.customCity}
                     onChange={handleInputChange}
-                    placeholder="Enter city (e.g., Venice)"
+                    placeholder={t('travelForm.enterCity')}
                     className="custom-destination-input"
                     required
                   />
@@ -216,7 +218,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
                     name="customCountry"
                     value={formData.customCountry}
                     onChange={handleInputChange}
-                    placeholder="Enter country (e.g., Italy)"
+                    placeholder={t('travelForm.enterCountry')}
                     className="custom-destination-input"
                     required
                   />
@@ -226,7 +228,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="startDate">Departure Date</label>
+                <label htmlFor="startDate">{t('travelForm.departureDate')}</label>
                 <input
                   type="date"
                   id="startDate"
@@ -238,7 +240,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="endDate">Return Date</label>
+                <label htmlFor="endDate">{t('travelForm.returnDate')}</label>
                 <input
                   type="date"
                   id="endDate"
@@ -256,12 +258,12 @@ const TravelPlannerForm = ({ onSubmit }) => {
       case 2:
         return (
           <div className="form-step">
-            <h3>💰 Budget & Travel Details</h3>
+            <h3>💰 {t('travelForm.step2Title')}</h3>
             
             <div className="form-group budget-slider-group">
-              <label htmlFor="budget">What's your budget? <span className="budget-value">{formatBudget(formData.budget)}</span></label>
+              <label htmlFor="budget">{t('travelForm.budget')} <span className="budget-value">{formatBudget(formData.budget)}</span></label>
               <div className="budget-slider-container">
-                <span className="budget-min">350 JOD</span>
+                <span className="budget-min">{t('travelForm.budgetMin')}</span>
                 <input
                   type="range"
                   id="budget"
@@ -274,13 +276,13 @@ const TravelPlannerForm = ({ onSubmit }) => {
                   className="budget-slider"
                   required
                 />
-                <span className="budget-max">35k+ JOD</span>
+                <span className="budget-max">{t('travelForm.budgetMax')}</span>
               </div>
             </div>
 
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="travelers">Number of Travelers</label>
+                <label htmlFor="travelers">{t('travelForm.travelers')}</label>
                 <select
                   id="travelers"
                   name="travelers"
@@ -289,38 +291,38 @@ const TravelPlannerForm = ({ onSubmit }) => {
                   required
                 >
                   {[1,2,3,4,5,6,7,8].map(num => (
-                    <option key={num} value={num}>{num} {num === 1 ? 'person' : 'people'}</option>
+                    <option key={num} value={num}>{num} {num === 1 ? t('travelForm.person') : t('travelForm.people')}</option>
                   ))}
-                  <option value="9+">9+ people</option>
+                  <option value="9+">9+ {t('travelForm.people')}</option>
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="travelStyle">Travel Style</label>
+                <label htmlFor="travelStyle">{t('travelForm.travelStyle')}</label>
                 <select
                   id="travelStyle"
                   name="travelStyle"
                   value={formData.travelStyle}
                   onChange={handleInputChange}
                 >
-                  <option value="">Select travel style</option>
+                  <option value="">{t('travelForm.selectTravelStyle')}</option>
                   {travelStyles.map((style, index) => (
-                    <option key={index} value={style}>{style}</option>
+                    <option key={index} value={style.key}>{style.label}</option>
                   ))}
                 </select>
               </div>
             </div>
 
             <div className="form-group">
-              <label htmlFor="accommodationType">Preferred Accommodation</label>
+              <label htmlFor="accommodationType">{t('travelForm.accommodation')}</label>
               <select
                 id="accommodationType"
                 name="accommodationType"
                 value={formData.accommodationType}
                 onChange={handleInputChange}
               >
-                <option value="">Select accommodation type</option>
+                <option value="">{t('travelForm.selectAccommodation')}</option>
                 {accommodationTypes.map((type, index) => (
-                  <option key={index} value={type}>{type}</option>
+                  <option key={index} value={type.key}>{type.label}</option>
                 ))}
               </select>
             </div>
@@ -330,52 +332,52 @@ const TravelPlannerForm = ({ onSubmit }) => {
       case 3:
         return (
           <div className="form-step">
-            <h3>🎯 Tell us more about your preferences</h3>
+            <h3>🎯 {t('travelForm.step3Title')}</h3>
             
             <div className="form-group">
-              <label htmlFor="activities">What activities do you want to do?</label>
+              <label htmlFor="activities">{t('travelForm.activities')}</label>
               <textarea
                 id="activities"
                 name="activities"
                 value={formData.activities}
                 onChange={handleInputChange}
-                placeholder="e.g., sightseeing, museums, nightlife, adventure sports, beaches, shopping..."
+                placeholder={t('travelForm.activitiesPlaceholder')}
                 rows="3"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="foodPreferences">Food preferences or dietary restrictions</label>
+              <label htmlFor="foodPreferences">{t('travelForm.foodPreferences')}</label>
               <textarea
                 id="foodPreferences"
                 name="foodPreferences"
                 value={formData.foodPreferences}
                 onChange={handleInputChange}
-                placeholder="e.g., vegetarian, local cuisine, fine dining, street food, allergies..."
+                placeholder={t('travelForm.foodPlaceholder')}
                 rows="3"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="interests">Special interests or must-see places</label>
+              <label htmlFor="interests">{t('travelForm.interests')}</label>
               <textarea
                 id="interests"
                 name="interests"
                 value={formData.interests}
                 onChange={handleInputChange}
-                placeholder="e.g., historical sites, art galleries, nature, photography, specific landmarks..."
+                placeholder={t('travelForm.interestsPlaceholder')}
                 rows="3"
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="specialRequests">Any special requests or considerations?</label>
+              <label htmlFor="specialRequests">{t('travelForm.specialRequests')}</label>
               <textarea
                 id="specialRequests"
                 name="specialRequests"
                 value={formData.specialRequests}
                 onChange={handleInputChange}
-                placeholder="e.g., accessibility needs, celebrations, business requirements, travel with children..."
+                placeholder={t('travelForm.specialRequestsPlaceholder')}
                 rows="3"
               />
             </div>
@@ -390,7 +392,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
   return (
     <div className="travel-planner-form" onKeyDown={handleKeyDown}>
       <div className="form-header">
-        <h2>Plan Your Perfect Trip</h2>
+        <h2>{t('travelForm.title')}</h2>
         <div className="progress-bar">
           <div className="progress-steps">
             {[1, 2, 3].map((step) => (
@@ -400,7 +402,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
               >
                 <span className="step-number">{step}</span>
                 <span className="step-label">
-                  {step === 1 ? 'Destination' : step === 2 ? 'Budget' : 'Preferences'}
+                  {step === 1 ? t('travelForm.stepDestination') : step === 2 ? t('travelForm.stepBudget') : t('travelForm.stepPreferences')}
                 </span>
               </div>
             ))}
@@ -426,7 +428,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
               onClick={(e) => handlePrevious(e)}
               className="btn-secondary"
             >
-              Previous
+              {t('travelForm.previous')}
             </button>
           )}
           
@@ -437,7 +439,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
               disabled={!isStepValid()}
               className="btn-primary"
             >
-              Next
+              {t('travelForm.next')}
             </button>
           ) : (
             <button 
@@ -445,7 +447,7 @@ const TravelPlannerForm = ({ onSubmit }) => {
               onClick={(e) => handleFinalSubmit(e)}
               className="btn-submit"
             >
-              Create My Travel Plan ✨
+              {t('travelForm.createPlan')}
             </button>
           )}
         </div>

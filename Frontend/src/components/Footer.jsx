@@ -1,12 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../contexts/AuthContext';
 
-const Footer = () => {
+const Footer = ({ sidebarCollapsed }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  
+  // Determine footer classes based on sidebar state and current page
+  const getFooterClasses = () => {
+    if (!isAuthenticated || location.pathname !== '/') return 'footer';
+    return `footer ${sidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar'}`;
+  };
   
   return (
-    <footer className="footer">
+    <footer className={getFooterClasses()}>
       <div className="footer-container">
         <div className="footer-brand">
           <h3 className="footer-logo">

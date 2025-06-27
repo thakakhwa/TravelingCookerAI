@@ -85,7 +85,7 @@ function App() {
                 </Routes>
               </div>
               
-              <Footer />
+              <Footer sidebarCollapsed={sidebarCollapsed} />
             </div>
           </Router>
         </AuthProvider>

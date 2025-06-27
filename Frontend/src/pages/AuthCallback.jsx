@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 
 const AuthCallback = () => {
+  const { t } = useTranslation();
   const [status, setStatus] = useState('processing');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const AuthCallback = () => {
 
       if (location.pathname.includes('/auth/error') || error) {
         setStatus('error');
-        setMessage('Authentication failed. Please try again.');
+        setMessage(t('authCallback.error.authFailed'));
         setTimeout(() => {
           navigate('/');
         }, 3000);
@@ -47,14 +49,14 @@ const AuthCallback = () => {
         } catch (error) {
           console.error('Error handling OAuth callback:', error);
           setStatus('error');
-          setMessage('Failed to complete authentication. Please try again.');
+          setMessage(t('authCallback.error.completeFailed'));
           setTimeout(() => {
             navigate('/');
           }, 3000);
         }
       } else {
         setStatus('error');
-        setMessage('No authentication token received.');
+        setMessage(t('authCallback.error.noToken'));
         setTimeout(() => {
           navigate('/');
         }, 3000);
@@ -70,19 +72,19 @@ const AuthCallback = () => {
         {status === 'processing' && (
           <div className="callback-processing">
             <div className="spinner-large">⟳</div>
-            <h2>Completing your sign-in...</h2>
-            <p>Please wait while we finalize your authentication.</p>
+            <h2>{t('authCallback.processing.title')}</h2>
+            <p>{t('authCallback.processing.description')}</p>
           </div>
         )}
 
         {status === 'success' && (
           <div className="callback-success">
             <div className="success-icon-large">🎉</div>
-            <h2>Welcome to TravelCooker!</h2>
+            <h2>{t('authCallback.success.title')}</h2>
             <p>{message}</p>
             <div className="redirect-info">
               <div className="spinner-small">⟳</div>
-              <span>Redirecting you to the app...</span>
+              <span>{t('authCallback.success.redirecting')}</span>
             </div>
           </div>
         )}
@@ -90,11 +92,11 @@ const AuthCallback = () => {
         {status === 'error' && (
           <div className="callback-error">
             <div className="error-icon-large">❌</div>
-            <h2>Authentication Failed</h2>
+            <h2>{t('authCallback.error.title')}</h2>
             <p>{message}</p>
             <div className="redirect-info">
               <div className="spinner-small">⟳</div>
-              <span>Redirecting you back...</span>
+              <span>{t('authCallback.error.redirecting')}</span>
             </div>
           </div>
         )}

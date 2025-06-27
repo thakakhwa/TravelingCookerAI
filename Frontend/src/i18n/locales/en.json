@@ -140,13 +140,187 @@
     "confirmPasswordRequired": "Please confirm your new password",
     "passwordsDoNotMatch": "Passwords do not match"
   },
+  "travelForm": {
+    "title": "Plan Your Perfect Trip",
+    "step1Title": "Let's start with the basics",
+    "step2Title": "Budget & Travel Details",
+    "step3Title": "Tell us more about your preferences",
+    "destination": "Where do you want to travel?",
+    "selectDestination": "Select your destination",
+    "other": "Other",
+    "enterCity": "Enter city (e.g., Venice)",
+    "enterCountry": "Enter country (e.g., Italy)",
+    "departureDate": "Departure Date",
+    "returnDate": "Return Date",
+    "budget": "What's your budget?",
+    "budgetMin": "350 JOD",
+    "budgetMax": "35k+ JOD",
+    "travelers": "Number of Travelers",
+    "person": "person",
+    "people": "people",
+    "travelStyle": "Travel Style",
+    "selectTravelStyle": "Select travel style",
+    "accommodation": "Preferred Accommodation",
+    "selectAccommodation": "Select accommodation type",
+    "activities": "What activities do you want to do?",
+    "activitiesPlaceholder": "e.g., sightseeing, museums, nightlife, adventure sports, beaches, shopping...",
+    "foodPreferences": "Food preferences or dietary restrictions",
+    "foodPlaceholder": "e.g., vegetarian, local cuisine, fine dining, street food, allergies...",
+    "interests": "Special interests or must-see places",
+    "interestsPlaceholder": "e.g., historical sites, art galleries, nature, photography, specific landmarks...",
+    "specialRequests": "Any special requests or considerations?",
+    "specialRequestsPlaceholder": "e.g., accessibility needs, celebrations, business requirements, travel with children...",
+    "stepDestination": "Destination",
+    "stepBudget": "Budget",
+    "stepPreferences": "Preferences",
+    "previous": "Previous",
+    "next": "Next",
+    "createPlan": "Create My Travel Plan ✨",
+    "travelStyles": {
+      "luxury": "Luxury",
+      "midRange": "Mid-range",
+      "budget": "Budget/Backpacking",
+      "adventure": "Adventure",
+      "relaxation": "Relaxation",
+      "cultural": "Cultural",
+      "family": "Family-friendly",
+      "business": "Business",
+      "romantic": "Romantic",
+      "solo": "Solo travel"
+    },
+    "accommodationTypes": {
+      "hotel": "Hotel",
+      "resort": "Resort",
+      "boutique": "Boutique Hotel",
+      "hostel": "Hostel",
+      "airbnb": "Airbnb/Vacation Rental",
+      "bnb": "Bed & Breakfast",
+      "camping": "Camping",
+      "cruise": "Cruise",
+      "other": "Other"
+    }
+  },
+  "travelResults": {
+    "title": "Your Perfect Travel Plan is Ready!",
+    "days": "days",
+    "travelers": "travelers",
+    "totalCost": "Total Cost",
+    "flights": "Flights",
+    "outbound": "Outbound",
+    "return": "Return",
+    "duration": "Duration",
+    "price": "Price",
+    "hotel": "Hotel",
+    "rating": "Rating",
+    "location": "Location",
+    "pricePerNight": "Per Night",
+    "totalPrice": "Total Price",
+    "amenities": "Amenities",
+    "activities": "Activities",
+    "type": "Type",
+    "description": "Description",
+    "backToForm": "Back to Form",
+    "newPlan": "Plan New Trip"
+  },
+  "plans": {
+    "title": "Choose Your AI Travel Planning Experience",
+    "subtitle": "Unlock the power of AI to create perfect travel plans. Each plan includes AI-generated itineraries, personalized recommendations, and smart travel insights.",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save17": "Save 17%",
+    "mostPopular": "Most Popular",
+    "whatsIncluded": "What's included:",
+    "getStarted": "Get Started",
+    "aiPlans": "AI Plans",
+    "aiPoweredTravelPlans": "AI-powered travel plans",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "explorer": {
+      "name": "Explorer",
+      "description": "Perfect for occasional travelers",
+      "features": {
+        "feature1": "25 AI travel plans per month",
+        "feature2": "Basic destination recommendations",
+        "feature3": "Flight & hotel suggestions",
+        "feature4": "Standard support",
+        "feature5": "Export to PDF"
+      }
+    },
+    "wandererPro": {
+      "name": "Wanderer Pro",
+      "description": "For frequent travelers and travel enthusiasts",
+      "features": {
+        "feature1": "75 AI travel plans per month",
+        "feature2": "Advanced AI recommendations",
+        "feature3": "Detailed itineraries with activities",
+        "feature4": "Real-time price comparisons",
+        "feature5": "Priority support",
+        "feature6": "Custom travel preferences",
+        "feature7": "Multiple export formats",
+        "feature8": "Trip sharing features"
+      }
+    },
+    "businessTraveler": {
+      "name": "Business Traveler",
+      "description": "For travel agencies and business users",
+      "features": {
+        "feature1": "200 AI travel plans per month",
+        "feature2": "Premium AI models & insights",
+        "feature3": "Multi-destination planning",
+        "feature4": "Corporate travel features",
+        "feature5": "API access",
+        "feature6": "White-label options",
+        "feature7": "24/7 premium support",
+        "feature8": "Team collaboration tools",
+        "feature9": "Advanced analytics",
+        "feature10": "Custom integrations"
+      }
+    },
+    "whyChoose": "Why Choose AI-Powered Travel Planning?",
+    "smartItinerary": {
+      "title": "Smart Itinerary Planning",
+      "description": "AI creates optimized daily schedules based on your preferences, time constraints, and local insights."
+    },
+    "personalizedRecommendations": {
+      "title": "Personalized Recommendations",
+      "description": "Get tailored suggestions for accommodations, activities, and dining based on your travel style and budget."
+    },
+    "realTimeUpdates": {
+      "title": "Real-time Updates",
+      "description": "Stay informed with live price tracking, weather updates, and last-minute recommendations."
+    },
+    "detailedGuides": {
+      "title": "Detailed Travel Guides",
+      "description": "Access comprehensive guides with local tips, cultural insights, and hidden gems discovered by AI."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "question1": "How do AI travel plan credits work?",
+      "answer1": "Each credit allows you to generate one complete AI travel plan including itinerary, accommodations, activities, and recommendations. Credits reset monthly.",
+      "question2": "Can I upgrade or downgrade my plan?",
+      "answer2": "Yes! You can change your plan at any time. Upgrades take effect immediately, and downgrades apply at your next billing cycle.",
+      "question3": "What happens if I run out of credits?",
+      "answer3": "You can purchase additional credits or upgrade your plan. We'll notify you when you're running low on credits.",
+      "question4": "Do you offer refunds?",
+      "answer4": "We offer a 30-day money-back guarantee. If you're not satisfied, contact our support team for a full refund."
+    }
+  },
+  "welcomeMessages": {
+    "welcomeBack": "Welcome back, {{username}}! 🌍",
+    "planTrip": "Plan Your Perfect Trip 🌍",
+    "nextAdventure": "Let's create your next amazing adventure!",
+    "dreamDestination": "Tell us about your dream destination and we'll create a personalized itinerary"
+  },
   "sidebar": {
     "aiAssistant": "AI Assistant",
     "newChat": "New Chat",
     "noChatHistory": "No chat history yet",
     "startNewChat": "Start a new conversation",
     "showHistory": "Show chat history",
-    "hideHistory": "Hide chat history"
+    "hideHistory": "Hide chat history",
+    "chatHistory": "Chat History",
+    "loadingChats": "Loading chats...",
+    "deleteChatConfirm": "Are you sure you want to delete this chat?"
   },
   "footer": {
     "allRightsReserved": "All rights reserved."
@@ -167,5 +341,109 @@
     "confirm": "Confirm",
     "yes": "Yes",
     "no": "No"
+  },
+  "about": {
+    "title": "About TravelingCooker",
+    "lead": "We're passionate about making travel planning effortless and enjoyable for everyone.",
+    "whatWeDo": {
+      "title": "What We Do",
+      "paragraph1": "TravelingCooker takes the stress out of trip planning by handling every detail of your journey. From finding the perfect flights and accommodations to curating unique experiences and restaurant recommendations, we create complete travel itineraries tailored to your preferences.",
+      "paragraph2": "Our comprehensive approach means you can focus on what matters most - enjoying your trip. We handle the research, bookings, and coordination so you don't have to."
+    },
+    "whyChoose": {
+      "title": "Why Choose TravelingCooker",
+      "paragraph1": "With years of travel experience and industry connections, we know what makes a trip truly special. Our team carefully selects each component of your journey to ensure quality, value, and unforgettable experiences.",
+      "paragraph2": "We believe every traveler is unique, which is why we customize each itinerary to match your interests, budget, and travel style. No cookie-cutter packages - just personalized adventures designed for you."
+    },
+    "services": {
+      "title": "Our Complete Service",
+      "flight": {
+        "title": "Flight Planning",
+        "description": "Best routes, optimal timing, and competitive prices for your journey"
+      },
+      "accommodation": {
+        "title": "Accommodation",
+        "description": "Handpicked hotels and stays that match your style and budget"
+      },
+      "experiences": {
+        "title": "Experiences",
+        "description": "Curated activities, tours, and attractions for memorable moments"
+      },
+      "dining": {
+        "title": "Dining",
+        "description": "Local favorites, hidden gems, and must-try culinary experiences"
+      }
+    },
+    "cta": {
+      "title": "Ready to Start Planning?",
+      "description": "Let us create the perfect trip for you. Complete planning from start to finish.",
+      "button": "Get Started"
+    }
+  },
+  "contact": {
+    "title": "Partner With Us",
+    "lead": "Join forces with TravelingCooker to grow your business and reach more travelers",
+    "partnerships": {
+      "title": "Business Partnerships & Opportunities",
+      "description": "TravelingCooker is always looking for strategic partnerships with hotels, airlines, restaurants, tour operators, and other travel-related businesses. We also welcome sponsorship opportunities and investment inquiries."
+    },
+    "benefits": {
+      "title": "Partnership Benefits",
+      "benefit1": "Access to our growing customer base",
+      "benefit2": "Featured placement in our AI recommendations",
+      "benefit3": "Revenue sharing opportunities",
+      "benefit4": "Co-marketing and promotional campaigns",
+      "benefit5": "Analytics and customer insights"
+    },
+    "contactInfo": {
+      "title": "Contact Information",
+      "email": "Business Email: partnerships@travelingcooker.com",
+      "phone": "Phone: (555) 123-4567",
+      "hours": "Business Hours: Monday-Friday, 9am-6pm EST",
+      "response": "Response Time: We typically respond within 24-48 hours"
+    },
+    "form": {
+      "title": "Business Inquiry",
+      "description": "Tell us about your business and how we can work together",
+      "fullName": "Full Name *",
+      "businessEmail": "Business Email *",
+      "phoneNumber": "Phone Number",
+      "company": "Company/Organization",
+      "companyPlaceholder": "Your business name",
+      "inquiryType": "Type of Inquiry *",
+      "inquiryOptions": {
+        "partnership": "Business Partnership",
+        "sponsorship": "Sponsorship Opportunity",
+        "investment": "Investment Inquiry",
+        "supplier": "Become a Service Provider",
+        "media": "Media & Press",
+        "other": "Other Business Inquiry"
+      },
+      "message": "Your Proposal or Inquiry *",
+      "messagePlaceholder": "Please describe your business, partnership idea, or inquiry in detail. Include any relevant information about your company, services, or proposal.",
+      "submit": "Submit Business Inquiry",
+      "success": {
+        "title": "Inquiry Received!",
+        "description": "Thank you for your interest in partnering with TravelingCooker. Our business development team will review your inquiry and get back to you within 24-48 hours.",
+        "button": "Submit Another Inquiry"
+      }
+    }
+  },
+  "authCallback": {
+    "processing": {
+      "title": "Completing your sign-in...",
+      "description": "Please wait while we finalize your authentication."
+    },
+    "success": {
+      "title": "Welcome to TravelCooker!",
+      "redirecting": "Redirecting you to the app..."
+    },
+    "error": {
+      "title": "Authentication Failed",
+      "authFailed": "Authentication failed. Please try again.",
+      "completeFailed": "Failed to complete authentication. Please try again.",
+      "noToken": "No authentication token received.",
+      "redirecting": "Redirecting you back..."
+    }
   }
 } 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import ChatSidebar from '../components/ChatSidebar';
 import TravelPlannerForm from '../components/TravelPlannerForm';
@@ -6,6 +7,7 @@ import TravelPlanResults from '../components/TravelPlanResults';
 
 const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
   const { user, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const [showResults, setShowResults] = useState(false);
   const [planData, setPlanData] = useState(null);
 
@@ -70,14 +72,14 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
           <div className="hero-content-compact">
             <h1 className="welcome-title">
               {isAuthenticated 
-                ? `Welcome back, ${user?.username}! 🌍`
-                : "Plan Your Perfect Trip 🌍"
+                ? t('welcomeMessages.welcomeBack', { username: user?.username })
+                : t('welcomeMessages.planTrip')
               }
             </h1>
             <p className="welcome-subtitle">
               {isAuthenticated 
-                ? "Let's create your next amazing adventure!"
-                : "Tell us about your dream destination and we'll create a personalized itinerary"
+                ? t('welcomeMessages.nextAdventure')
+                : t('welcomeMessages.dreamDestination')
               }
             </p>
           </div>

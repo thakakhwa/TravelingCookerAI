@@ -1291,6 +1291,47 @@ button {
   }
 }
 
+/* Footer sidebar responsiveness */
+.footer.with-sidebar {
+  margin-left: 320px;
+  transition: margin-left 0.3s ease;
+}
+
+.footer.sidebar-collapsed {
+  margin-left: 40px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Responsive adjustments for footer */
+@media (max-width: 1024px) {
+  .footer.with-sidebar {
+    margin-left: 280px;
+  }
+  
+  .footer.sidebar-collapsed {
+    margin-left: 40px;
+  }
+}
+
+/* Tablet and desktop responsiveness - preserve sidebar functionality */
+@media (max-width: 768px) and (pointer: fine) {
+  .footer.with-sidebar {
+    margin-left: 280px;
+  }
+  
+  .footer.sidebar-collapsed {
+    margin-left: 40px;
+  }
+}
+
+/* Mobile responsiveness - overlay sidebar */
+@media (max-width: 768px) and (pointer: coarse) {
+  .footer.with-sidebar,
+  .footer.sidebar-collapsed {
+    margin-left: 0;
+  }
+}
+
 /* Responsive adjustments for logo positioning */
 @media (max-width: 1024px) {
   .navbar-logo.with-sidebar {
@@ -1329,10 +1370,18 @@ button {
   /* Don't change overall direction to avoid layout shifts */
 }
 
-/* Keep logo always in English/LTR */
+/* Keep logo always in English/LTR with original styling */
 .navbar-logo .logo-text {
   direction: ltr;
   display: inline-block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+  font-style: normal !important;
+}
+
+/* Keep AI part of logo non-italic */
+.navbar-logo .logo-text .ai-part {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+  font-style: normal !important;
 }
 
 /* Arabic text should be RTL but keep layout positions unchanged */
@@ -1373,10 +1422,18 @@ button {
   direction: rtl;
 }
 
-/* Keep footer logo always in English/LTR */
+/* Keep footer logo always in English/LTR with original styling */
 .footer-logo {
   direction: ltr;
   display: inline-block;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+  font-style: normal !important;
+}
+
+/* Keep AI part of footer logo non-italic */
+.footer-logo .ai-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+  font-style: normal !important;
 }
 
 /* RTL Mobile adjustments */

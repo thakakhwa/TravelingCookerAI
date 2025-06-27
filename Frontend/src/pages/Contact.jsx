@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Contact() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,38 +32,36 @@ function Contact() {
   return (
     <div className="contact-container">
       <div className="page-header">
-        <h1>Partner With Us</h1>
-        <p className="lead">Join forces with TravelingCooker to grow your business and reach more travelers</p>
+        <h1>{t('contact.title')}</h1>
+        <p className="lead">{t('contact.lead')}</p>
       </div>
       
       <div className="contact-content">
         <div className="contact-info">
           <div className="info-section">
-            <h2>Business Partnerships & Opportunities</h2>
+            <h2>{t('contact.partnerships.title')}</h2>
             <p>
-              TravelingCooker is always looking for strategic partnerships with hotels, airlines, 
-              restaurants, tour operators, and other travel-related businesses. We also welcome 
-              sponsorship opportunities and investment inquiries.
+              {t('contact.partnerships.description')}
             </p>
           </div>
           
           <div className="ai-benefits">
-            <h3>Partnership Benefits</h3>
+            <h3>{t('contact.benefits.title')}</h3>
             <ul className="benefits-list">
-              <li>Access to our growing customer base</li>
-              <li>Featured placement in our AI recommendations</li>
-              <li>Revenue sharing opportunities</li>
-              <li>Co-marketing and promotional campaigns</li>
-              <li>Analytics and customer insights</li>
+              <li>{t('contact.benefits.benefit1')}</li>
+              <li>{t('contact.benefits.benefit2')}</li>
+              <li>{t('contact.benefits.benefit3')}</li>
+              <li>{t('contact.benefits.benefit4')}</li>
+              <li>{t('contact.benefits.benefit5')}</li>
             </ul>
           </div>
           
           <div className="info-section">
-            <h3>Contact Information</h3>
-            <p>Business Email: partnerships@travelingcooker.com</p>
-            <p>Phone: (555) 123-4567</p>
-            <p>Business Hours: Monday-Friday, 9am-6pm EST</p>
-            <p>Response Time: We typically respond within 24-48 hours</p>
+            <h3>{t('contact.contactInfo.title')}</h3>
+            <p>{t('contact.contactInfo.email')}</p>
+            <p>{t('contact.contactInfo.phone')}</p>
+            <p>{t('contact.contactInfo.hours')}</p>
+            <p>{t('contact.contactInfo.response')}</p>
           </div>
         </div>
         
@@ -69,13 +69,13 @@ function Contact() {
           {!submitted ? (
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-header">
-                <span className="ai-form-badge">Business Inquiry</span>
-                <p>Tell us about your business and how we can work together</p>
+                <span className="ai-form-badge">{t('contact.form.title')}</span>
+                <p>{t('contact.form.description')}</p>
               </div>
             
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="name">Full Name *</label>
+                  <label htmlFor="name">{t('contact.form.fullName')}</label>
                   <input
                     type="text"
                     id="name"
@@ -87,7 +87,7 @@ function Contact() {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="email">Business Email *</label>
+                  <label htmlFor="email">{t('contact.form.businessEmail')}</label>
                   <input
                     type="email"
                     id="email"
@@ -101,7 +101,7 @@ function Contact() {
               
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="phone">Phone Number</label>
+                  <label htmlFor="phone">{t('contact.form.phoneNumber')}</label>
                   <input
                     type="tel"
                     id="phone"
@@ -112,20 +112,20 @@ function Contact() {
                 </div>
                 
                 <div className="form-group">
-                  <label htmlFor="company">Company/Organization</label>
+                  <label htmlFor="company">{t('contact.form.company')}</label>
                   <input
                     type="text"
                     id="company"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    placeholder="Your business name"
+                    placeholder={t('contact.form.companyPlaceholder')}
                   />
                 </div>
               </div>
               
               <div className="form-group">
-                <label htmlFor="inquiryType">Type of Inquiry *</label>
+                <label htmlFor="inquiryType">{t('contact.form.inquiryType')}</label>
                 <select
                   id="inquiryType"
                   name="inquiryType"
@@ -133,39 +133,39 @@ function Contact() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="partnership">Business Partnership</option>
-                  <option value="sponsorship">Sponsorship Opportunity</option>
-                  <option value="investment">Investment Inquiry</option>
-                  <option value="supplier">Become a Service Provider</option>
-                  <option value="media">Media & Press</option>
-                  <option value="other">Other Business Inquiry</option>
+                  <option value="partnership">{t('contact.form.inquiryOptions.partnership')}</option>
+                  <option value="sponsorship">{t('contact.form.inquiryOptions.sponsorship')}</option>
+                  <option value="investment">{t('contact.form.inquiryOptions.investment')}</option>
+                  <option value="supplier">{t('contact.form.inquiryOptions.supplier')}</option>
+                  <option value="media">{t('contact.form.inquiryOptions.media')}</option>
+                  <option value="other">{t('contact.form.inquiryOptions.other')}</option>
                 </select>
               </div>
               
               <div className="form-group">
-                <label htmlFor="message">Your Proposal or Inquiry *</label>
+                <label htmlFor="message">{t('contact.form.message')}</label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows="5"
-                  placeholder="Please describe your business, partnership idea, or inquiry in detail. Include any relevant information about your company, services, or proposal."
+                  placeholder={t('contact.form.messagePlaceholder')}
                   required
                 />
               </div>
               
               <button type="submit" className="submit-button">
                 <span className="ai-icon">🤝</span>
-                Submit Business Inquiry
+                {t('contact.form.submit')}
               </button>
             </form>
           ) : (
             <div className="success-message">
-              <h2>Inquiry Received!</h2>
-              <p>Thank you for your interest in partnering with TravelingCooker. Our business development team will review your inquiry and get back to you within 24-48 hours.</p>
+              <h2>{t('contact.form.success.title')}</h2>
+              <p>{t('contact.form.success.description')}</p>
               <button onClick={() => setSubmitted(false)} className="reset-button">
-                Submit Another Inquiry
+                {t('contact.form.success.button')}
               </button>
             </div>
           )}
