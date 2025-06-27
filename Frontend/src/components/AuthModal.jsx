@@ -253,7 +253,7 @@ const AuthModal = ({ isOpen, onClose, defaultMode = 'login' }) => {
         </form>
 
         {/* OAuth Buttons - Temporarily disabled until OAuth credentials are configured */}
-        {false && (
+        {true && (
           <>
             {/* OAuth Divider */}
             <div className="oauth-divider">
