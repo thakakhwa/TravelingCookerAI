@@ -168,4 +168,4 @@ function Navbar({ sidebarCollapsed, onToggleSidebar, onNewChat }) {
   );
 }
 
-export default Navbar; 
+export default Navbar;  

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../contexts/ThemeContext';
+import { ScrollAnimationWrapper } from '../hooks/useScrollAnimation.jsx';
 import './Plans.css';
 
 const Plans = () => {
@@ -98,29 +99,32 @@ const Plans = () => {
     <div className={`plans-page ${theme}`} data-theme={theme}>
       <div className="plans-container">
         {/* Header Section */}
-        <div className="plans-header">
-          <h1>{t('plans.title')}</h1>
-          <p className="plans-subtitle">
-            {t('plans.subtitle')}
-          </p>
-          
-          {/* Billing Toggle */}
-          <div className="billing-toggle">
-            <span className={billingCycle === 'monthly' ? 'active' : ''}>{t('plans.monthly')}</span>
-            <div className="toggle-switch" onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}>
-              <div className={`toggle-slider ${billingCycle}`}></div>
+        <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+          <div className="plans-header">
+            <h1>{t('plans.title')}</h1>
+            <p className="plans-subtitle">
+              {t('plans.subtitle')}
+            </p>
+            
+            {/* Billing Toggle */}
+            <div className="billing-toggle">
+              <span className={billingCycle === 'monthly' ? 'active' : ''}>{t('plans.monthly')}</span>
+              <div className="toggle-switch" onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}>
+                <div className={`toggle-slider ${billingCycle}`}></div>
+              </div>
+              <span className={billingCycle === 'yearly' ? 'active' : ''}>
+                {t('plans.yearly')}
+                <span className="discount-badge">{t('plans.save17')}</span>
+              </span>
             </div>
-            <span className={billingCycle === 'yearly' ? 'active' : ''}>
-              {t('plans.yearly')}
-              <span className="discount-badge">{t('plans.save17')}</span>
-            </span>
           </div>
-        </div>
+        </ScrollAnimationWrapper>
 
         {/* Plans Grid */}
         <div className="plans-grid">
-          {plans.map((plan) => (
-            <div key={plan.id} className={`plan-card ${plan.popular ? 'popular' : ''}`}>
+          {plans.map((plan, index) => (
+            <ScrollAnimationWrapper key={plan.id} animation="cardSlideUp" delay={index * 0.2}>
+              <div className={`plan-card ${plan.popular ? 'popular' : ''}`}>
               {plan.popular && <div className="popular-badge">{t('plans.mostPopular')}</div>}
               
               <div className="plan-header">
@@ -168,76 +172,97 @@ const Plans = () => {
               <button className={`plan-button ${plan.popular ? 'popular' : ''}`}>
                 {t('plans.getStarted')}
               </button>
-            </div>
+              </div>
+            </ScrollAnimationWrapper>
           ))}
         </div>
 
         {/* Features Comparison */}
         <div className="features-section">
-          <h2>{t('plans.whyChoose')}</h2>
+          <ScrollAnimationWrapper animation="fadeInUp" delay={0.1}>
+            <h2>{t('plans.whyChoose')}</h2>
+          </ScrollAnimationWrapper>
           <div className="features-grid">
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
-                </svg>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.2}>
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                  </svg>
+                </div>
+                <h3>{t('plans.smartItinerary.title')}</h3>
+                <p>{t('plans.smartItinerary.description')}</p>
               </div>
-              <h3>{t('plans.smartItinerary.title')}</h3>
-              <p>{t('plans.smartItinerary.description')}</p>
-            </div>
+            </ScrollAnimationWrapper>
             
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                </svg>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.3}>
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                </div>
+                <h3>{t('plans.personalizedRecommendations.title')}</h3>
+                <p>{t('plans.personalizedRecommendations.description')}</p>
               </div>
-              <h3>{t('plans.personalizedRecommendations.title')}</h3>
-              <p>{t('plans.personalizedRecommendations.description')}</p>
-            </div>
+            </ScrollAnimationWrapper>
             
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                </svg>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.4}>
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                  </svg>
+                </div>
+                <h3>{t('plans.realTimeUpdates.title')}</h3>
+                <p>{t('plans.realTimeUpdates.description')}</p>
               </div>
-              <h3>{t('plans.realTimeUpdates.title')}</h3>
-              <p>{t('plans.realTimeUpdates.description')}</p>
-            </div>
+            </ScrollAnimationWrapper>
             
-            <div className="feature-item">
-              <div className="feature-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                </svg>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.5}>
+              <div className="feature-item">
+                <div className="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                  </svg>
+                </div>
+                <h3>{t('plans.detailedGuides.title')}</h3>
+                <p>{t('plans.detailedGuides.description')}</p>
               </div>
-              <h3>{t('plans.detailedGuides.title')}</h3>
-              <p>{t('plans.detailedGuides.description')}</p>
-            </div>
+            </ScrollAnimationWrapper>
           </div>
         </div>
 
         {/* FAQ Section */}
         <div className="faq-section">
-          <h2>{t('plans.faq.title')}</h2>
+          <ScrollAnimationWrapper animation="fadeInUp" delay={0.1}>
+            <h2>{t('plans.faq.title')}</h2>
+          </ScrollAnimationWrapper>
           <div className="faq-grid">
-            <div className="faq-item">
-              <h4>{t('plans.faq.question1')}</h4>
-              <p>{t('plans.faq.answer1')}</p>
-            </div>
-            <div className="faq-item">
-              <h4>{t('plans.faq.question2')}</h4>
-              <p>{t('plans.faq.answer2')}</p>
-            </div>
-            <div className="faq-item">
-              <h4>{t('plans.faq.question3')}</h4>
-              <p>{t('plans.faq.answer3')}</p>
-            </div>
-            <div className="faq-item">
-              <h4>{t('plans.faq.question4')}</h4>
-              <p>{t('plans.faq.answer4')}</p>
-            </div>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.2}>
+              <div className="faq-item">
+                <h4>{t('plans.faq.question1')}</h4>
+                <p>{t('plans.faq.answer1')}</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.3}>
+              <div className="faq-item">
+                <h4>{t('plans.faq.question2')}</h4>
+                <p>{t('plans.faq.answer2')}</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.4}>
+              <div className="faq-item">
+                <h4>{t('plans.faq.question3')}</h4>
+                <p>{t('plans.faq.answer3')}</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.5}>
+              <div className="faq-item">
+                <h4>{t('plans.faq.question4')}</h4>
+                <p>{t('plans.faq.answer4')}</p>
+              </div>
+            </ScrollAnimationWrapper>
           </div>
         </div>
       </div>

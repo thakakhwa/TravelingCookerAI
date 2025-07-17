@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import ChatSidebar from '../components/ChatSidebar';
 import TravelPlannerForm from '../components/TravelPlannerForm';
 import TravelPlanResults from '../components/TravelPlanResults';
+import { ScrollAnimationWrapper } from '../hooks/useScrollAnimation.jsx';
 
 const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
   const { user, isAuthenticated } = useAuth();
@@ -69,79 +70,103 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
       <div className={`main-content ${isAuthenticated ? (sidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar') : ''}`}>
         {/* Compact Welcome Section */}
         <section className="hero-section-compact">
-          <div className="hero-content-compact">
-            <h1 className="welcome-title">
-              {isAuthenticated 
-                ? t('welcomeMessages.welcomeBack', { username: user?.username })
-                : t('welcomeMessages.planTrip')
-              }
-            </h1>
-            <p className="welcome-subtitle">
-              {isAuthenticated 
-                ? t('welcomeMessages.nextAdventure')
-                : t('welcomeMessages.dreamDestination')
-              }
-            </p>
-          </div>
+          <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+            <div className="hero-content-compact">
+              <h1 className="welcome-title">
+                {isAuthenticated 
+                  ? t('welcomeMessages.welcomeBack', { username: user?.username })
+                  : t('welcomeMessages.planTrip')
+                }
+              </h1>
+              <p className="welcome-subtitle">
+                {isAuthenticated 
+                  ? t('welcomeMessages.nextAdventure')
+                  : t('welcomeMessages.dreamDestination')
+                }
+              </p>
+            </div>
+          </ScrollAnimationWrapper>
         </section>
 
         {/* Travel Planner Form or Results */}
         {!showResults ? (
-          <TravelPlannerForm onSubmit={handleTravelPlanSubmit} />
+          <ScrollAnimationWrapper animation="fadeInUp" delay={0.2} duration={0.8}>
+            <TravelPlannerForm onSubmit={handleTravelPlanSubmit} />
+          </ScrollAnimationWrapper>
         ) : (
-          <TravelPlanResults 
-            formData={planData} 
-            onBack={handleBackToForm}
-            onNewPlan={handleNewPlan}
-          />
+          <ScrollAnimationWrapper animation="fadeInUp" duration={0.8}>
+            <TravelPlanResults 
+              formData={planData} 
+              onBack={handleBackToForm}
+              onNewPlan={handleNewPlan}
+            />
+          </ScrollAnimationWrapper>
         )}
 
         {/* Services Section */}
         <section className="services-section">
-          <h2>Everything You Need</h2>
-          <div className="services-grid">
-            <div className="service-card">
-              <div className="service-icon">✈️</div>
-              <h3>Flights</h3>
-              <p>Best deals and perfect timing for your journey</p>
-            </div>
-            <div className="service-card">
-              <div className="service-icon">🏨</div>
-              <h3>Hotels</h3>
-              <p>Handpicked accommodations for every budget</p>
-            </div>
-            <div className="service-card">
-              <div className="service-icon">🎯</div>
-              <h3>Activities</h3>
-              <p>Curated experiences and must-see attractions</p>
-            </div>
-            <div className="service-card">
-              <div className="service-icon">🍽️</div>
-              <h3>Restaurants</h3>
-              <p>Local favorites and hidden gems</p>
-            </div>
+          <ScrollAnimationWrapper animation="fadeInUp" delay={0.1}>
+            <h2>Everything You Need</h2>
+          </ScrollAnimationWrapper>
+          <div className="services-grid scroll-animation-grid">
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.2}>
+              <div className="service-card">
+                <div className="service-icon">✈️</div>
+                <h3>Flights</h3>
+                <p>Best deals and perfect timing for your journey</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.3}>
+              <div className="service-card">
+                <div className="service-icon">🏨</div>
+                <h3>Hotels</h3>
+                <p>Handpicked accommodations for every budget</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.4}>
+              <div className="service-card">
+                <div className="service-icon">🎯</div>
+                <h3>Activities</h3>
+                <p>Curated experiences and must-see attractions</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="cardSlideUp" delay={0.5}>
+              <div className="service-card">
+                <div className="service-icon">🍽️</div>
+                <h3>Restaurants</h3>
+                <p>Local favorites and hidden gems</p>
+              </div>
+            </ScrollAnimationWrapper>
           </div>
         </section>
 
         {/* How It Works */}
         <section className="how-it-works">
-          <h2>How It Works</h2>
+          <ScrollAnimationWrapper animation="fadeInUp" delay={0.1}>
+            <h2>How It Works</h2>
+          </ScrollAnimationWrapper>
           <div className="steps">
-            <div className="step">
-              <div className="step-number">1</div>
-              <h3>Answer our questions</h3>
-              <p>Tell us your destination, dates, budget, and preferences</p>
-            </div>
-            <div className="step">
-              <div className="step-number">2</div>
-              <h3>AI creates your plan</h3>
-              <p>Our AI analyzes your answers and creates a personalized itinerary</p>
-            </div>
-            <div className="step">
-              <div className="step-number">3</div>
-              <h3>Enjoy your adventure</h3>
-              <p>Follow your custom plan and make unforgettable memories</p>
-            </div>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.2}>
+              <div className="step">
+                <div className="step-number">1</div>
+                <h3>Answer our questions</h3>
+                <p>Tell us your destination, dates, budget, and preferences</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.3}>
+              <div className="step">
+                <div className="step-number">2</div>
+                <h3>AI creates your plan</h3>
+                <p>Our AI analyzes your answers and creates a personalized itinerary</p>
+              </div>
+            </ScrollAnimationWrapper>
+            <ScrollAnimationWrapper animation="slideInUp" delay={0.4}>
+              <div className="step">
+                <div className="step-number">3</div>
+                <h3>Enjoy your adventure</h3>
+                <p>Follow your custom plan and make unforgettable memories</p>
+              </div>
+            </ScrollAnimationWrapper>
           </div>
         </section>
       </div>

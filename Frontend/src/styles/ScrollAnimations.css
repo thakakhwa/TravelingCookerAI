@@ -1,0 +1,208 @@
+/* Scroll Animation Base Styles */
+.scroll-animation {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all var(--animation-duration, 0.6s) ease-out;
+  transition-delay: var(--animation-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.scroll-animation.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade In Up Animation */
+.scroll-animation.fadeInUp {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.fadeInUp.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade In Down Animation */
+.scroll-animation.fadeInDown {
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.fadeInDown.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade In Left Animation */
+.scroll-animation.fadeInLeft {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.fadeInLeft.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Fade In Right Animation */
+.scroll-animation.fadeInRight {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.fadeInRight.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale In Animation */
+.scroll-animation.scaleIn {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.scaleIn.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Rotate In Animation */
+.scroll-animation.rotateIn {
+  opacity: 0;
+  transform: rotate(-10deg) scale(0.8);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.rotateIn.visible {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Slide In Up Animation */
+.scroll-animation.slideInUp {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.slideInUp.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bounce In Animation */
+.scroll-animation.bounceIn {
+  opacity: 0;
+  transform: scale(0.3);
+  transition: opacity var(--animation-duration, 0.6s) cubic-bezier(0.68, -0.55, 0.265, 1.55) var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) cubic-bezier(0.68, -0.55, 0.265, 1.55) var(--animation-delay, 0s);
+}
+
+.scroll-animation.bounceIn.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger Animation for Grid Items */
+.scroll-animation.stagger {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.6s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.stagger.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Special animations for cards */
+.scroll-animation.cardSlideUp {
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  transition: opacity var(--animation-duration, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--animation-delay, 0s),
+              transform var(--animation-duration, 0.7s) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--animation-delay, 0s);
+}
+
+.scroll-animation.cardSlideUp.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Floating animation for hero elements */
+.scroll-animation.float {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--animation-duration, 1s) ease-out var(--animation-delay, 0s),
+              transform var(--animation-duration, 1s) ease-out var(--animation-delay, 0s);
+}
+
+.scroll-animation.float.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Special grid animation */
+.scroll-animation-grid {
+  display: grid;
+  gap: inherit;
+}
+
+.scroll-animation-grid .scroll-animation {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--animation-duration, 0.6s) ease-out,
+              transform var(--animation-duration, 0.6s) ease-out;
+}
+
+.scroll-animation-grid .scroll-animation.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for grid items */
+.scroll-animation-grid .scroll-animation:nth-child(1) { --animation-delay: 0.1s; }
+.scroll-animation-grid .scroll-animation:nth-child(2) { --animation-delay: 0.2s; }
+.scroll-animation-grid .scroll-animation:nth-child(3) { --animation-delay: 0.3s; }
+.scroll-animation-grid .scroll-animation:nth-child(4) { --animation-delay: 0.4s; }
+.scroll-animation-grid .scroll-animation:nth-child(5) { --animation-delay: 0.5s; }
+.scroll-animation-grid .scroll-animation:nth-child(6) { --animation-delay: 0.6s; }
+
+/* Smooth reset for elements going out of view */
+.scroll-animation:not(.visible) {
+  transition-duration: 0.3s;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-animation {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  .scroll-animation.visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+} 

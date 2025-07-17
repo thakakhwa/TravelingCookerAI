@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ScrollAnimationWrapper } from '../hooks/useScrollAnimation.jsx';
 
 function Contact() {
   const { t } = useTranslation();
@@ -31,43 +32,52 @@ function Contact() {
   
   return (
     <div className="contact-container">
-      <div className="page-header">
-        <h1>{t('contact.title')}</h1>
-        <p className="lead">{t('contact.lead')}</p>
-      </div>
+      <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+        <div className="page-header">
+          <h1>{t('contact.title')}</h1>
+          <p className="lead">{t('contact.lead')}</p>
+        </div>
+      </ScrollAnimationWrapper>
       
       <div className="contact-content">
         <div className="contact-info">
-          <div className="info-section">
-            <h2>{t('contact.partnerships.title')}</h2>
-            <p>
-              {t('contact.partnerships.description')}
-            </p>
-          </div>
+          <ScrollAnimationWrapper animation="fadeInLeft" delay={0.2}>
+            <div className="info-section">
+              <h2>{t('contact.partnerships.title')}</h2>
+              <p>
+                {t('contact.partnerships.description')}
+              </p>
+            </div>
+          </ScrollAnimationWrapper>
           
-          <div className="ai-benefits">
-            <h3>{t('contact.benefits.title')}</h3>
-            <ul className="benefits-list">
-              <li>{t('contact.benefits.benefit1')}</li>
-              <li>{t('contact.benefits.benefit2')}</li>
-              <li>{t('contact.benefits.benefit3')}</li>
-              <li>{t('contact.benefits.benefit4')}</li>
-              <li>{t('contact.benefits.benefit5')}</li>
-            </ul>
-          </div>
+          <ScrollAnimationWrapper animation="fadeInLeft" delay={0.3}>
+            <div className="ai-benefits">
+              <h3>{t('contact.benefits.title')}</h3>
+              <ul className="benefits-list">
+                <li>{t('contact.benefits.benefit1')}</li>
+                <li>{t('contact.benefits.benefit2')}</li>
+                <li>{t('contact.benefits.benefit3')}</li>
+                <li>{t('contact.benefits.benefit4')}</li>
+                <li>{t('contact.benefits.benefit5')}</li>
+              </ul>
+            </div>
+          </ScrollAnimationWrapper>
           
-          <div className="info-section">
-            <h3>{t('contact.contactInfo.title')}</h3>
-            <p>{t('contact.contactInfo.email')}</p>
-            <p>{t('contact.contactInfo.phone')}</p>
-            <p>{t('contact.contactInfo.hours')}</p>
-            <p>{t('contact.contactInfo.response')}</p>
-          </div>
+          <ScrollAnimationWrapper animation="fadeInLeft" delay={0.4}>
+            <div className="info-section">
+              <h3>{t('contact.contactInfo.title')}</h3>
+              <p>{t('contact.contactInfo.email')}</p>
+              <p>{t('contact.contactInfo.phone')}</p>
+              <p>{t('contact.contactInfo.hours')}</p>
+              <p>{t('contact.contactInfo.response')}</p>
+            </div>
+          </ScrollAnimationWrapper>
         </div>
         
         <div className="contact-form-container">
           {!submitted ? (
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <ScrollAnimationWrapper animation="fadeInRight" delay={0.2}>
+              <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-header">
                 <span className="ai-form-badge">{t('contact.form.title')}</span>
                 <p>{t('contact.form.description')}</p>
@@ -160,14 +170,17 @@ function Contact() {
                 {t('contact.form.submit')}
               </button>
             </form>
+            </ScrollAnimationWrapper>
           ) : (
-            <div className="success-message">
-              <h2>{t('contact.form.success.title')}</h2>
-              <p>{t('contact.form.success.description')}</p>
-              <button onClick={() => setSubmitted(false)} className="reset-button">
-                {t('contact.form.success.button')}
-              </button>
-            </div>
+            <ScrollAnimationWrapper animation="bounceIn" delay={0.1}>
+              <div className="success-message">
+                <h2>{t('contact.form.success.title')}</h2>
+                <p>{t('contact.form.success.description')}</p>
+                <button onClick={() => setSubmitted(false)} className="reset-button">
+                  {t('contact.form.success.button')}
+                </button>
+              </div>
+            </ScrollAnimationWrapper>
           )}
         </div>
       </div>
