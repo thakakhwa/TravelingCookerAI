@@ -99,7 +99,7 @@ const Plans = () => {
     <div className={`plans-page ${theme}`} data-theme={theme}>
       <div className="plans-container">
         {/* Header Section */}
-        <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+        <ScrollAnimationWrapper animation="fadeInDown" duration={0.8}>
           <div className="plans-header">
             <h1>{t('plans.title')}</h1>
             <p className="plans-subtitle">

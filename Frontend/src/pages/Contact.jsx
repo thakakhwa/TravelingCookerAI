@@ -32,7 +32,7 @@ function Contact() {
   
   return (
     <div className="contact-container">
-      <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+      <ScrollAnimationWrapper animation="fadeInDown" duration={0.8}>
         <div className="page-header">
           <h1>{t('contact.title')}</h1>
           <p className="lead">{t('contact.lead')}</p>

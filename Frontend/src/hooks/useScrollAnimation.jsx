@@ -10,17 +10,15 @@ export const useScrollAnimation = (options = {}) => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !isVisible) {
           setIsVisible(true);
-          // Only stop observing if explicitly set to once
-          if (options.once === true) {
+          // Always stop observing after first trigger unless explicitly set to repeat
+          if (options.repeat !== true) {
             observer.unobserve(entry.target);
           }
-        } else {
-          // Allow re-triggering by default unless once is true
-          if (options.once !== true) {
-            setIsVisible(false);
-          }
+        } else if (options.repeat === true && !entry.isIntersecting) {
+          // Only allow disappearing if repeat is explicitly true
+          setIsVisible(false);
         }
       },
       {
@@ -35,7 +33,7 @@ export const useScrollAnimation = (options = {}) => {
     return () => {
       observer.unobserve(element);
     };
-  }, [options.once, options.threshold, options.rootMargin]);
+  }, [isVisible, options.repeat, options.threshold, options.rootMargin]);
 
   return [ref, isVisible];
 };
@@ -46,13 +44,13 @@ export const ScrollAnimationWrapper = ({
   animation = 'fadeInUp',
   delay = 0,
   duration = 0.6,
-  once = false,
+  repeat = false,
   threshold = 0.15,
   rootMargin = '0px 0px -100px 0px',
   ...restOptions 
 }) => {
   const [ref, isVisible] = useScrollAnimation({ 
-    once, 
+    repeat, 
     threshold, 
     rootMargin, 
     ...restOptions 

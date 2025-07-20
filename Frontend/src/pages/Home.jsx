@@ -70,7 +70,7 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
       <div className={`main-content ${isAuthenticated ? (sidebarCollapsed ? 'sidebar-collapsed' : 'with-sidebar') : ''}`}>
         {/* Compact Welcome Section */}
         <section className="hero-section-compact">
-          <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+          <ScrollAnimationWrapper animation="fadeInDown" duration={0.8}>
             <div className="hero-content-compact">
               <h1 className="welcome-title">
                 {isAuthenticated 

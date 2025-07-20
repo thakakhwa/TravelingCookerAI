@@ -8,7 +8,7 @@ const About = () => {
   return (
     <div className="about-container">
       {/* Page Header */}
-      <ScrollAnimationWrapper animation="fadeInDown" duration={0.8} once={true}>
+      <ScrollAnimationWrapper animation="fadeInDown" duration={0.8}>
         <div className="page-header">
           <h1>{t('about.title')}</h1>
           <p className="lead">
