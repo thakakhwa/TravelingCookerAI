@@ -9,44 +9,94 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
   const hasAIPlan = formData.travelPlan && formData.travelPlan.plan;
   const aiPlan = hasAIPlan ? formData.travelPlan.plan : null;
   
+  // Debug: Log the REAL data from backend
+  console.log('🎯 REAL AI Data from Backend:', aiPlan);
+  
   // Extract destination first to avoid reference issues
   const destination = formData.destination === 'Other' ? `${formData.customCity}, ${formData.customCountry}` : formData.destination;
   const duration = Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000 * 60 * 60 * 24));
   const budget = parseInt(formData.budget);
+
+  // SAFE parsing functions to prevent crashes
+  const safeParseAirport = (airportString) => {
+    if (!airportString || typeof airportString !== 'string') {
+      return { code: 'N/A', city: 'Unknown' };
+    }
+    
+    // If format is "City (CODE)" 
+    if (airportString.includes('(') && airportString.includes(')')) {
+      const parts = airportString.split('(');
+      const city = parts[0].trim();
+      const code = parts[1]?.replace(')', '').trim() || 'N/A';
+      return { code, city };
+    }
+    
+    // If it's just a code like "AMM" or "NRT"
+    if (airportString.length === 3 && airportString === airportString.toUpperCase()) {
+      return { code: airportString, city: airportString };
+    }
+    
+    // Fallback
+    return { code: airportString.substring(0, 3).toUpperCase(), city: airportString };
+  };
+
+  const getAirlineLogo = (airlineName) => {
+    return `https://via.placeholder.com/40x40/667eea/ffffff?text=${airlineName?.charAt(0) || 'A'}`;
+  };
+
+  const getScrapedImage = (item, type) => {
+    if (item && item.imageUrl) {
+      return item.imageUrl;
+    }
+    return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop';
+  };
   
   const plan = {
     destination: destination,
     duration: duration,
     travelers: parseInt(formData.travelers) || 1,
     budget: budget,
-    flights: hasAIPlan && aiPlan.flights ? aiPlan.flights.slice(0, 2).map((flight, index) => ({
-      airline: flight.airline,
-      flight: flight.flightNumber,
-      from: index === 0 ? 'Amman (AMM)' : getDestinationCode(destination),
-      to: index === 0 ? getDestinationCode(destination) : 'Amman (AMM)',
-      departure: flight.departureTime,
-      arrival: flight.arrivalTime,
-      duration: flight.duration,
-      price: flight.price
-    })) : {
+    flights: hasAIPlan && aiPlan.flights && aiPlan.flights.length >= 2 ? {
+      outbound: {
+        airline: aiPlan.flights[0].airline,
+        flight: aiPlan.flights[0].flightNumber,
+        from: aiPlan.flights[0].origin,
+        to: aiPlan.flights[0].destination,
+        departure: aiPlan.flights[0].departureTime,
+        arrival: aiPlan.flights[0].arrivalTime,
+        duration: aiPlan.flights[0].duration,
+        price: aiPlan.flights[0].price
+      },
+      return: {
+        airline: aiPlan.flights[1].airline,
+        flight: aiPlan.flights[1].flightNumber,
+        from: aiPlan.flights[1].destination,
+        to: aiPlan.flights[1].origin,
+        departure: aiPlan.flights[1].departureTime,
+        arrival: aiPlan.flights[1].arrivalTime,
+        duration: aiPlan.flights[1].duration,
+        price: aiPlan.flights[1].price
+      },
+      allOptions: aiPlan.flights // Keep all options for later use
+    } : {
       outbound: {
         airline: 'Royal Jordanian',
         flight: 'RJ 183',
         from: 'Amman (AMM)',
-        to: getDestinationCode(destination),
+        to: destination.split(',')[0] + ' (' + destination.split(',')[0].substring(0, 3).toUpperCase() + ')',
         departure: '14:30',
         arrival: '17:45',
-        duration: getFlightDuration(destination),
+        duration: '6h 30m',
         price: Math.round(budget * 0.3)
       },
       return: {
         airline: 'Royal Jordanian',
         flight: 'RJ 184',
-        from: getDestinationCode(destination),
+        from: destination.split(',')[0] + ' (' + destination.split(',')[0].substring(0, 3).toUpperCase() + ')',
         to: 'Amman (AMM)',
         departure: '18:20',
         arrival: '21:35',
-        duration: getFlightDuration(destination),
+        duration: '6h 30m',
         price: Math.round(budget * 0.3)
       }
     },
@@ -58,9 +108,9 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
       totalPrice: aiPlan.hotels[0].totalPrice,
       amenities: aiPlan.hotels[0].amenities || ['WiFi', 'Restaurant']
     } : {
-      name: `${plan.destination.split(',')[0]} Grand Hotel`,
+      name: `${destination.split(',')[0]} Grand Hotel`,
       rating: 4.5,
-      location: `Central ${plan.destination.split(',')[0]}`,
+      location: `Central ${destination.split(',')[0]}`,
       pricePerNight: Math.round((budget * 0.4) / duration),
       totalPrice: Math.round(budget * 0.4),
       amenities: ['WiFi', 'Pool', 'Gym', 'Restaurant']
@@ -111,80 +161,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
   const aiRecommendations = hasAIPlan ? formData.travelPlan.recommendations : null;
   const weatherInfo = hasAIPlan && aiPlan.weather ? aiPlan.weather : null;
 
-  // Helper function to get correct airport codes
-  const getDestinationCode = (destination) => {
-    const cityName = destination.split(',')[0].toLowerCase();
-    const airportCodes = {
-      'tokyo': 'Tokyo (NRT)',
-      'paris': 'Paris (CDG)',
-      'london': 'London (LHR)',
-      'dubai': 'Dubai (DXB)',
-      'istanbul': 'Istanbul (IST)',
-      'rome': 'Rome (FCO)',
-      'barcelona': 'Barcelona (BCN)',
-      'amsterdam': 'Amsterdam (AMS)',
-      'cairo': 'Cairo (CAI)',
-      'bangkok': 'Bangkok (BKK)',
-      'singapore': 'Singapore (SIN)',
-      'mumbai': 'Mumbai (BOM)',
-      'new york': 'New York (JFK)',
-      'los angeles': 'Los Angeles (LAX)'
-    };
-    
-    return airportCodes[cityName] || `${destination.split(',')[0]} (${destination.split(',')[0].substring(0, 3).toUpperCase()})`;
-  };
 
-  // Helper function to get realistic flight durations
-  const getFlightDuration = (destination) => {
-    const cityName = destination.split(',')[0].toLowerCase();
-    const durations = {
-      'tokyo': '10h 30m',
-      'paris': '5h 45m',
-      'london': '5h 30m',
-      'dubai': '2h 15m',
-      'istanbul': '3h 15m',
-      'rome': '4h 20m',
-      'barcelona': '5h 10m',
-      'amsterdam': '5h 45m',
-      'cairo': '1h 30m',
-      'bangkok': '8h 45m',
-      'singapore': '9h 15m',
-      'mumbai': '7h 30m',
-      'new york': '14h 20m',
-      'los angeles': '16h 45m'
-    };
-    
-    return durations[cityName] || '6h 30m';
-  };
-
-  // Helper function to get airline logo URLs (with fallback for real scraping)
-  const getAirlineLogo = (airlineName) => {
-    // For now, use generic airline logos - can be enhanced with real logo scraping
-    return `https://via.placeholder.com/40x40/667eea/ffffff?text=${airlineName.charAt(0)}`;
-  };
-
-  // Helper function to get scraped images or fallback
-  const getScrapedImage = (item, type) => {
-    // Use scraped image URL if available
-    if (item && item.imageUrl) {
-      return item.imageUrl;
-    }
-    
-    // Fallback to destination-specific images
-    const cityName = destination.split(',')[0].toLowerCase();
-    const images = {
-      'tokyo': 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=600&fit=crop',
-      'paris': 'https://images.unsplash.com/photo-1502602898536-47ad22581b52?w=800&h=600&fit=crop',
-      'london': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop',
-      'dubai': 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop',
-      'istanbul': 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&h=600&fit=crop',
-      'rome': 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=600&fit=crop',
-      'barcelona': 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&h=600&fit=crop',
-      'amsterdam': 'https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&h=600&fit=crop'
-    };
-    
-    return images[cityName] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop';
-  };
 
   return (
     <div className="travel-plan-results">
@@ -232,8 +209,8 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               </div>
               <div className="flight-route">
                 <div className="airport-info">
-                  <span className="airport-code">AMM</span>
-                  <span className="city">Amman</span>
+                  <span className="airport-code">{safeParseAirport(plan.flights.outbound.from).code}</span>
+                  <span className="city">{safeParseAirport(plan.flights.outbound.from).city}</span>
                   <span className="time">{plan.flights.outbound.departure}</span>
                 </div>
                 <div className="flight-duration">
@@ -241,8 +218,8 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
                   <div className="flight-line"></div>
                 </div>
                 <div className="airport-info">
-                  <span className="airport-code">IST</span>
-                  <span className="city">Istanbul</span>
+                  <span className="airport-code">{safeParseAirport(plan.flights.outbound.to).code}</span>
+                  <span className="city">{safeParseAirport(plan.flights.outbound.to).city}</span>
                   <span className="time">{plan.flights.outbound.arrival}</span>
                 </div>
               </div>
@@ -264,8 +241,8 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               </div>
               <div className="flight-route">
                 <div className="airport-info">
-                  <span className="airport-code">{plan.flights.return.from.split(' ')[1].replace('(', '').replace(')', '')}</span>
-                  <span className="city">{plan.flights.return.from.split(' ')[0]}</span>
+                  <span className="airport-code">{safeParseAirport(plan.flights.return.from).code}</span>
+                  <span className="city">{safeParseAirport(plan.flights.return.from).city}</span>
                   <span className="time">{plan.flights.return.departure}</span>
                 </div>
                 <div className="flight-duration">
@@ -273,8 +250,8 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
                   <div className="flight-line"></div>
                 </div>
                 <div className="airport-info">
-                  <span className="airport-code">{plan.flights.return.to.split(' ')[1].replace('(', '').replace(')', '')}</span>
-                  <span className="city">{plan.flights.return.to.split(' ')[0]}</span>
+                  <span className="airport-code">{safeParseAirport(plan.flights.return.to).code}</span>
+                  <span className="city">{safeParseAirport(plan.flights.return.to).city}</span>
                   <span className="time">{plan.flights.return.arrival}</span>
                 </div>
               </div>

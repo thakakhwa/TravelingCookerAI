@@ -469,21 +469,43 @@ class TravelAI {
   }
 
   calculateBudgetBreakdown(flights, hotels, attractions, totalBudget) {
-    const cheapestFlight = Math.min(...flights.map(f => f.price)) * 2; // Round trip
-    const midRangeHotel = hotels.find(h => h.rating === 3)?.pricePerNight * 3 || 300; // 3 nights
-    const activities = attractions.slice(0, 3).reduce((sum, a) => sum + a.price, 0);
-    
-    const transportation = Math.round(totalBudget * 0.4);
-    const accommodation = Math.round(totalBudget * 0.35);
-    const food = Math.round(totalBudget * 0.15);
-    const activitiesAndShopping = Math.round(totalBudget * 0.1);
+    try {
+      // Safe flight calculation
+      const flightPrices = flights && flights.length > 0 ? flights.map(f => f.price || 0).filter(p => p > 0) : [];
+      const cheapestFlight = flightPrices.length > 0 ? Math.min(...flightPrices) * 2 : Math.round(totalBudget * 0.4);
+      
+      // Safe hotel calculation  
+      const midRangeHotel = hotels && hotels.length > 0 ? 
+        (hotels.find(h => h.rating === 3)?.pricePerNight * 3) || 
+        (hotels[0]?.pricePerNight * 3) || 
+        Math.round(totalBudget * 0.35) : Math.round(totalBudget * 0.35);
+      
+      // Safe activities calculation
+      const activities = attractions && attractions.length > 0 ? 
+        attractions.slice(0, 3).reduce((sum, a) => sum + (a.price || 0), 0) : 
+        Math.round(totalBudget * 0.1);
+      
+      const transportation = Math.round(totalBudget * 0.4);
+      const accommodation = Math.round(totalBudget * 0.35);
+      const food = Math.round(totalBudget * 0.15);
+      const activitiesAndShopping = Math.round(totalBudget * 0.1);
 
-    return {
-      transportation: { amount: transportation, percentage: 40 },
-      accommodation: { amount: accommodation, percentage: 35 },
-      food: { amount: food, percentage: 15 },
-      activities: { amount: activitiesAndShopping, percentage: 10 }
-    };
+      return {
+        transportation: { amount: transportation, percentage: 40 },
+        accommodation: { amount: accommodation, percentage: 35 },
+        food: { amount: food, percentage: 15 },
+        activities: { amount: activitiesAndShopping, percentage: 10 }
+      };
+    } catch (error) {
+      console.error('Budget breakdown error:', error);
+      // Fallback budget breakdown
+      return {
+        transportation: { amount: Math.round(totalBudget * 0.4), percentage: 40 },
+        accommodation: { amount: Math.round(totalBudget * 0.35), percentage: 35 },
+        food: { amount: Math.round(totalBudget * 0.15), percentage: 15 },
+        activities: { amount: Math.round(totalBudget * 0.1), percentage: 10 }
+      };
+    }
   }
 
   generateRecommendations(destination, budget, travelers) {
