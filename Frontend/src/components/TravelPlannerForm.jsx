@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { chatApi } from '../services/chatApi';
 import './TravelPlannerForm.css';
 
 const TravelPlannerForm = ({ onSubmit }) => {
@@ -156,13 +157,53 @@ const TravelPlannerForm = ({ onSubmit }) => {
     return false;
   };
 
-  const handleFinalSubmit = (e) => {
+  const handleFinalSubmit = async (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
+
     console.log('Final submit button clicked');
-    onSubmit(formData);
+    
+    try {
+      // Prepare travel plan data
+      const destination = formData.destination === 'Other' 
+        ? `${formData.customCity}, ${formData.customCountry}` 
+        : formData.destination;
+
+      const planData = {
+        destination: destination,
+        origin: 'Amman', // Default origin
+        startDate: formData.startDate,
+        endDate: formData.endDate,
+        budget: parseInt(formData.budget),
+        travelers: parseInt(formData.travelers),
+        travelStyle: formData.travelStyle,
+        activities: formData.activities,
+        accommodationType: formData.accommodationType,
+        foodPreferences: formData.foodPreferences,
+        interests: formData.interests,
+        specialRequests: formData.specialRequests
+      };
+
+      // Get AI-powered travel plan
+      const travelPlan = await chatApi.createTravelPlan(planData);
+      
+      // Pass the real travel plan data to the parent component
+      onSubmit({
+        ...formData,
+        travelPlan: travelPlan
+      });
+
+    } catch (error) {
+      console.error('Error creating travel plan:', error);
+      
+      // Fallback to original form data if AI service fails
+      onSubmit({
+        ...formData,
+        error: 'Unable to generate AI travel plan. Showing basic information.'
+      });
+    }
   };
 
   const isStepValid = () => {

@@ -105,5 +105,18 @@ export const chatApi = {
   // Delete a chat session (alias for compatibility)
   deleteChatSession: async (sessionId) => {
     return chatApi.deleteSession(sessionId);
+  },
+
+  // Create travel plan using AI (public endpoint)
+  createTravelPlan: async (planData) => {
+    try {
+      const response = await api.post('/chat/public/travel-plan', planData);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating travel plan:', error);
+      throw error;
+    }
   }
-}; 
+};
+
+export { api }; 

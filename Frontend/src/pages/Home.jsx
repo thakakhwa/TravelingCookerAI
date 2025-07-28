@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import ChatSidebar from '../components/ChatSidebar';
+import ChatInterface from '../components/ChatInterface';
 import TravelPlannerForm from '../components/TravelPlannerForm';
 import TravelPlanResults from '../components/TravelPlanResults';
+import { chatApi } from '../services/chatApi';
 import { ScrollAnimationWrapper } from '../hooks/useScrollAnimation.jsx';
+import './Home.css';
 
 const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
   const { user, isAuthenticated } = useAuth();
   const { t } = useTranslation();
   const [showResults, setShowResults] = useState(false);
   const [planData, setPlanData] = useState(null);
+  const [showChat, setShowChat] = useState(false);
+  const [currentChatSession, setCurrentChatSession] = useState(null);
 
   const handleTravelPlanSubmit = async (formData) => {
     console.log('Travel plan submitted:', formData);
@@ -53,6 +58,35 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
     setPlanData(null);
     // Optionally scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenChat = async () => {
+    if (!isAuthenticated) {
+      // Could trigger auth modal here
+      return;
+    }
+
+    try {
+      // Create a new chat session or use existing one
+      let sessionId;
+      if (currentChatSession) {
+        sessionId = currentChatSession;
+      } else {
+        const newSession = await chatApi.createSession({
+          title: 'Travel Planning Chat'
+        });
+        sessionId = newSession.id;
+        setCurrentChatSession(sessionId);
+      }
+      
+      setShowChat(true);
+    } catch (error) {
+      console.error('Error opening chat:', error);
+    }
+  };
+
+  const handleCloseChat = () => {
+    setShowChat(false);
   };
 
   return (
@@ -118,7 +152,7 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
             </ScrollAnimationWrapper>
             <ScrollAnimationWrapper animation="cardSlideUp" delay={0.3}>
               <div className="service-card">
-                <div className="service-icon">🏨</div>
+                <div className="service-icon" style={{height:37}}>🏨</div>
                 <h3>Hotels</h3>
                 <p>Handpicked accommodations for every budget</p>
               </div>
@@ -170,6 +204,8 @@ const Home = ({ sidebarCollapsed, onToggleSidebar, onNewChat }) => {
           </div>
         </section>
       </div>
+
+
     </div>
   );
 };

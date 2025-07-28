@@ -12,8 +12,11 @@
     "studio": "npx prisma studio"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.7.1",
+    "axios": "^1.6.7",
     "bcryptjs": "^2.4.3",
+    "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -23,9 +26,11 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^7.0.3",
+    "openai": "^4.28.4",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "passport-microsoft": "^2.1.0"
+    "passport-microsoft": "^2.1.0",
+    "puppeteer": "^21.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",

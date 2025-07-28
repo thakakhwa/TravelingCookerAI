@@ -2,9 +2,11 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
 import { authenticateToken } from '../middleware/auth.js';
+import TravelAI from '../services/travelAI.js';
 
 const router = express.Router();
 const prisma = new PrismaClient();
+const travelAI = new TravelAI();
 
 // Get all chat sessions for user
 router.get('/sessions', authenticateToken, async (req, res) => {
@@ -91,11 +93,11 @@ router.post('/sessions', [
   }
 });
 
-// Add message to chat session
+// Add message to chat session with AI response
 router.post('/sessions/:sessionId/messages', [
   authenticateToken,
   body('content').isLength({ min: 1 }).trim(),
-  body('sender').isIn(['user', 'ai'])
+  body('sender').isIn(['user', 'ai']).optional()
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -107,7 +109,7 @@ router.post('/sessions/:sessionId/messages', [
     }
 
     const { sessionId } = req.params;
-    const { content, sender } = req.body;
+    const { content, sender = 'user' } = req.body;
 
     // Verify session belongs to user
     const session = await prisma.chatSession.findFirst({
@@ -121,14 +123,46 @@ router.post('/sessions/:sessionId/messages', [
       return res.status(404).json({ error: 'Chat session not found' });
     }
 
-    // Create message
-    const message = await prisma.chatMessage.create({
+    // Create user message
+    const userMessage = await prisma.chatMessage.create({
       data: {
         content,
-        sender,
+        sender: 'user',
         sessionId
       }
     });
+
+    let aiMessage = null;
+    let travelData = null;
+
+    // Generate AI response for user messages
+    if (sender === 'user') {
+      try {
+        const aiResult = await travelAI.processQuery(req.user.id, sessionId, content);
+        
+        // Create AI response message
+        aiMessage = await prisma.chatMessage.create({
+          data: {
+            content: aiResult.response,
+            sender: 'ai',
+            sessionId
+          }
+        });
+
+        travelData = aiResult.data;
+      } catch (aiError) {
+        console.error('AI processing error:', aiError);
+        
+        // Create fallback AI message
+        aiMessage = await prisma.chatMessage.create({
+          data: {
+            content: "I'm having trouble processing your request right now. Could you please try rephrasing your question?",
+            sender: 'ai',
+            sessionId
+          }
+        });
+      }
+    }
 
     // Update session's updatedAt timestamp
     await prisma.chatSession.update({
@@ -137,8 +171,12 @@ router.post('/sessions/:sessionId/messages', [
     });
 
     res.status(201).json({ 
-      message: 'Message added',
-      data: message 
+      message: 'Message processed',
+      data: {
+        userMessage,
+        aiMessage,
+        travelData
+      }
     });
   } catch (error) {
     console.error('Add message error:', error);
@@ -202,6 +240,63 @@ router.delete('/sessions/:sessionId', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Delete session error:', error);
     res.status(500).json({ error: 'Failed to delete session' });
+  }
+});
+
+// Public travel planning endpoint (no auth required)
+router.post('/public/travel-plan', [
+  body('destination').isLength({ min: 1 }).trim(),
+  body('origin').optional().trim(),
+  body('startDate').optional().isISO8601(),
+  body('endDate').optional().isISO8601(),
+  body('budget').optional().isNumeric(),
+  body('travelers').optional().isNumeric()
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        error: 'Validation failed', 
+        details: errors.array() 
+      });
+    }
+
+    const {
+      destination,
+      origin = 'Amman',
+      startDate,
+      endDate,
+      budget = 1000,
+      travelers = 2,
+      travelStyle,
+      activities,
+      accommodationType
+    } = req.body;
+
+    // Create a travel planning query message
+    const planningQuery = `Plan a trip to ${destination} from ${origin} for ${travelers} travelers with a budget of ${budget} JOD. ${travelStyle ? `Travel style: ${travelStyle}. ` : ''}${activities ? `Interested in: ${activities}. ` : ''}${accommodationType ? `Preferred accommodation: ${accommodationType}.` : ''}`;
+
+    // Process with AI (use demo user ID if not authenticated)
+    const userId = req.user?.id || 'demo-user';
+    const aiResult = await travelAI.processQuery(userId, `temp-${Date.now()}`, planningQuery);
+
+    res.json({
+      success: true,
+      plan: aiResult.data,
+      recommendations: aiResult.response,
+      searchParams: {
+        destination,
+        origin,
+        startDate,
+        endDate,
+        budget,
+        travelers
+      }
+    });
+
+  } catch (error) {
+    console.error('Travel planning error:', error);
+    res.status(500).json({ error: 'Failed to create travel plan' });
   }
 });
 

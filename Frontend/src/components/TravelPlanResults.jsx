@@ -4,61 +4,187 @@ import './TravelPlanResults.css';
 
 const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
   const { t } = useTranslation();
+  
+  // Handle both AI-generated plans and fallback data
+  const hasAIPlan = formData.travelPlan && formData.travelPlan.plan;
+  const aiPlan = hasAIPlan ? formData.travelPlan.plan : null;
+  
+  // Extract destination first to avoid reference issues
+  const destination = formData.destination === 'Other' ? `${formData.customCity}, ${formData.customCountry}` : formData.destination;
+  const duration = Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000 * 60 * 60 * 24));
+  const budget = parseInt(formData.budget);
+  
   const plan = {
-    destination: formData.destination === 'Other' ? `${formData.customCity}, ${formData.customCountry}` : formData.destination,
-    duration: Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000 * 60 * 60 * 24)),
+    destination: destination,
+    duration: duration,
     travelers: parseInt(formData.travelers) || 1,
-    budget: parseInt(formData.budget),
-    flights: {
+    budget: budget,
+    flights: hasAIPlan && aiPlan.flights ? aiPlan.flights.slice(0, 2).map((flight, index) => ({
+      airline: flight.airline,
+      flight: flight.flightNumber,
+      from: index === 0 ? 'Amman (AMM)' : getDestinationCode(destination),
+      to: index === 0 ? getDestinationCode(destination) : 'Amman (AMM)',
+      departure: flight.departureTime,
+      arrival: flight.arrivalTime,
+      duration: flight.duration,
+      price: flight.price
+    })) : {
       outbound: {
         airline: 'Royal Jordanian',
         flight: 'RJ 183',
         from: 'Amman (AMM)',
-        to: 'Istanbul (IST)', 
+        to: getDestinationCode(destination),
         departure: '14:30',
         arrival: '17:45',
-        duration: '3h 15m',
-        price: Math.round(formData.budget * 0.3)
+        duration: getFlightDuration(destination),
+        price: Math.round(budget * 0.3)
       },
       return: {
         airline: 'Royal Jordanian',
         flight: 'RJ 184',
-        from: 'Istanbul (IST)',
+        from: getDestinationCode(destination),
         to: 'Amman (AMM)',
         departure: '18:20',
         arrival: '21:35',
-        duration: '3h 15m',
-        price: Math.round(formData.budget * 0.3)
+        duration: getFlightDuration(destination),
+        price: Math.round(budget * 0.3)
       }
     },
-    hotel: {
-      name: `${formData.destination.split(',')[0]} Grand Hotel`,
+    hotel: hasAIPlan && aiPlan.hotels && aiPlan.hotels.length > 0 ? {
+      name: aiPlan.hotels[0].name,
+      rating: aiPlan.hotels[0].rating,
+      location: aiPlan.hotels[0].location,
+      pricePerNight: aiPlan.hotels[0].pricePerNight,
+      totalPrice: aiPlan.hotels[0].totalPrice,
+      amenities: aiPlan.hotels[0].amenities || ['WiFi', 'Restaurant']
+    } : {
+      name: `${plan.destination.split(',')[0]} Grand Hotel`,
       rating: 4.5,
-      location: `Central ${formData.destination.split(',')[0]}`,
-      pricePerNight: Math.round((formData.budget * 0.4) / Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000 * 60 * 60 * 24))),
-      totalPrice: Math.round(formData.budget * 0.4),
+      location: `Central ${plan.destination.split(',')[0]}`,
+      pricePerNight: Math.round((budget * 0.4) / duration),
+      totalPrice: Math.round(budget * 0.4),
       amenities: ['WiFi', 'Pool', 'Gym', 'Restaurant']
     },
-    activities: [
+    activities: hasAIPlan && aiPlan.attractions ? aiPlan.attractions.slice(0, 4).map(attraction => ({
+      name: attraction.name,
+      type: attraction.category,
+      duration: attraction.duration,
+      price: attraction.price,
+      description: attraction.description
+    })) : [
       {
-        name: 'City Walking Tour',
+        name: `${destination.split(',')[0]} Walking Tour`,
         type: 'Cultural',
         duration: '3 hours',
-        price: Math.round(formData.budget * 0.1),
-        description: 'Explore the city with a professional guide'
+        price: Math.round(budget * 0.1),
+        description: `Explore ${destination.split(',')[0]} with a professional guide`
       },
       {
         name: 'Local Food Experience',
         type: 'Culinary', 
         duration: '4 hours',
-        price: Math.round(formData.budget * 0.15),
+        price: Math.round(budget * 0.15),
         description: 'Taste authentic local cuisine'
       }
     ]
   };
 
-  const totalCost = plan.flights.outbound.price + plan.flights.return.price + plan.hotel.totalPrice + plan.activities.reduce((sum, a) => sum + a.price, 0);
-  const formatPrice = (price) => `${price.toLocaleString()} JOD`;
+  // Calculate total cost based on data structure
+  const calculateTotalCost = () => {
+    let flightCost = 0;
+    if (Array.isArray(plan.flights)) {
+      flightCost = plan.flights.reduce((sum, flight) => sum + (flight.price || 0), 0);
+    } else {
+      flightCost = (plan.flights.outbound?.price || 0) + (plan.flights.return?.price || 0);
+    }
+    
+    const hotelCost = plan.hotel.totalPrice || 0;
+    const activitiesCost = plan.activities.reduce((sum, a) => sum + (a.price || 0), 0);
+    
+    return flightCost + hotelCost + activitiesCost;
+  };
+  
+  const totalCost = calculateTotalCost();
+  const formatPrice = (price) => `${price?.toLocaleString() || 0} JOD`;
+  
+  // Get AI recommendations if available
+  const aiRecommendations = hasAIPlan ? formData.travelPlan.recommendations : null;
+  const weatherInfo = hasAIPlan && aiPlan.weather ? aiPlan.weather : null;
+
+  // Helper function to get correct airport codes
+  const getDestinationCode = (destination) => {
+    const cityName = destination.split(',')[0].toLowerCase();
+    const airportCodes = {
+      'tokyo': 'Tokyo (NRT)',
+      'paris': 'Paris (CDG)',
+      'london': 'London (LHR)',
+      'dubai': 'Dubai (DXB)',
+      'istanbul': 'Istanbul (IST)',
+      'rome': 'Rome (FCO)',
+      'barcelona': 'Barcelona (BCN)',
+      'amsterdam': 'Amsterdam (AMS)',
+      'cairo': 'Cairo (CAI)',
+      'bangkok': 'Bangkok (BKK)',
+      'singapore': 'Singapore (SIN)',
+      'mumbai': 'Mumbai (BOM)',
+      'new york': 'New York (JFK)',
+      'los angeles': 'Los Angeles (LAX)'
+    };
+    
+    return airportCodes[cityName] || `${destination.split(',')[0]} (${destination.split(',')[0].substring(0, 3).toUpperCase()})`;
+  };
+
+  // Helper function to get realistic flight durations
+  const getFlightDuration = (destination) => {
+    const cityName = destination.split(',')[0].toLowerCase();
+    const durations = {
+      'tokyo': '10h 30m',
+      'paris': '5h 45m',
+      'london': '5h 30m',
+      'dubai': '2h 15m',
+      'istanbul': '3h 15m',
+      'rome': '4h 20m',
+      'barcelona': '5h 10m',
+      'amsterdam': '5h 45m',
+      'cairo': '1h 30m',
+      'bangkok': '8h 45m',
+      'singapore': '9h 15m',
+      'mumbai': '7h 30m',
+      'new york': '14h 20m',
+      'los angeles': '16h 45m'
+    };
+    
+    return durations[cityName] || '6h 30m';
+  };
+
+  // Helper function to get airline logo URLs (with fallback for real scraping)
+  const getAirlineLogo = (airlineName) => {
+    // For now, use generic airline logos - can be enhanced with real logo scraping
+    return `https://via.placeholder.com/40x40/667eea/ffffff?text=${airlineName.charAt(0)}`;
+  };
+
+  // Helper function to get scraped images or fallback
+  const getScrapedImage = (item, type) => {
+    // Use scraped image URL if available
+    if (item && item.imageUrl) {
+      return item.imageUrl;
+    }
+    
+    // Fallback to destination-specific images
+    const cityName = destination.split(',')[0].toLowerCase();
+    const images = {
+      'tokyo': 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=600&fit=crop',
+      'paris': 'https://images.unsplash.com/photo-1502602898536-47ad22581b52?w=800&h=600&fit=crop',
+      'london': 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&h=600&fit=crop',
+      'dubai': 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800&h=600&fit=crop',
+      'istanbul': 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&h=600&fit=crop',
+      'rome': 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=600&fit=crop',
+      'barcelona': 'https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=800&h=600&fit=crop',
+      'amsterdam': 'https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=800&h=600&fit=crop'
+    };
+    
+    return images[cityName] || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop';
+  };
 
   return (
     <div className="travel-plan-results">
@@ -95,7 +221,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               <div className="flight-header">
                 <div className="airline-info">
                   <div className="airline-logo">
-                    <img src="/api/placeholder/40/40" alt={plan.flights.outbound.airline} className="airline-image" />
+                    <img src={getAirlineLogo(plan.flights.outbound.airline)} alt={plan.flights.outbound.airline} className="airline-image" />
                   </div>
                   <div className="airline-details">
                     <span className="airline">{plan.flights.outbound.airline}</span>
@@ -127,7 +253,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
               <div className="flight-header">
                 <div className="airline-info">
                   <div className="airline-logo">
-                    <img src="/api/placeholder/40/40" alt={plan.flights.return.airline} className="airline-image" />
+                    <img src={getAirlineLogo(plan.flights.return.airline)} alt={plan.flights.return.airline} className="airline-image" />
                   </div>
                   <div className="airline-details">
                     <span className="airline">{plan.flights.return.airline}</span>
@@ -170,7 +296,7 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
           
           <div className="hotel-card">
             <div className="hotel-image-container">
-              <img src="/api/placeholder/300/200" alt={plan.hotel.name} className="hotel-image" />
+              <img src={getScrapedImage(plan.hotel, 'hotel')} alt={plan.hotel.name} className="hotel-image" />
             </div>
             <div className="hotel-content">
               <div className="hotel-details">
@@ -218,8 +344,8 @@ const TravelPlanResults = ({ formData, onBack, onNewPlan }) => {
           <div className="activities-grid">
             {plan.activities.map((activity, index) => (
               <div key={index} className="activity-card">
-                <div className="activity-image-container">
-                  <img src="/api/placeholder/280/160" alt={activity.name} className="activity-image" />
+                              <div className="activity-image-container">
+                <img src={getScrapedImage(activity, 'activity')} alt={activity.name} className="activity-image" />
                 </div>
                 <div className="activity-content">
                   <div className="activity-header">
